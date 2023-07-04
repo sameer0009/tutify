@@ -1,0 +1,159 @@
+body {
+  background-color: #f7f7f7;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+  background-color: #ffffff;
+  width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(185, 185, 185, 0.1);
+  animation: fadeIn 0.5s;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.container label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.container input[type="text"],
+.container input[type="password"] {
+  width: 95%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.container button {
+  background-color: #4c63af;
+  color: #fff;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+button.back-button {
+  padding: 4px;
+  background-color: #4285f4;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  float: right;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.container button:hover {
+  background-color: #f7be04;
+}
+
+.container button:active {
+  background-color: #8e3e45;
+}
+
+.container input[type="text"]:focus,
+.container input[type="password"]:focus {
+  outline: none;
+  border: 1px solid #a2b844;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-15px);
+  }
+  
+  20%, 80% {
+    transform: translateX(15px);
+  }
+
+  30%, 50%, 70% {
+    transform: translateX(-15px);
+  }
+
+  40%, 60% {
+    transform: translateX(15px);
+  }
+}
+
+.container.empty-submit button {
+  animation: shake 0.5s;
+  animation-fill-mode: forwards;
+}
+
+.container.empty-submit button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  animation: float 2s infinite alternate;
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
+}
+
+/* Additional styles for a more beautiful appearance */
+
+.container {
+  max-width: 500px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.container button {
+  width: 100%;
+}
+
+button.back-button{
+  width: 30%;
+}
+
+button.back-button:hover {
+  background-color: #3480d6;
+}
+.container button:hover {
+  background-color: #d63434;
+}
+
+.container button:active {
+  background-color: #d68f0b;
+}

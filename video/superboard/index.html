@@ -1,0 +1,1667 @@
+<!--
+ * @Author: ZegoDev
+ * @Date: 2021-07-28 11:39:16
+ * @LastEditTime: 2021-10-13 17:13:25
+ * @LastEditors: Please set LastEditors
+ * @Description: Entrance
+ * @FilePath: /superboard/index.html
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="renderer" content="webkit" />
+  <title>SuperBoard Demo</title>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico?v2" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="./apple-touch-icon-72-precomposed.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="./apple-touch-icon-57-precomposed.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="./apple-touch-icon-144-precomposed.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="./apple-touch-icon-114-precomposed.png" />
+  <!-- bootstrap css Resource -->
+  <link rel="stylesheet" href="./lib/bootstrap.min.css" />
+  <!-- lay ui css Resource-->
+  <link rel="stylesheet" href="./lib/css/layui.css" />
+  <!-- Demo Style -->
+  <link href="./main.css" type="text/css" rel="stylesheet" />
+  <!-- jquery Resource -->
+  <script src="./lib/jquery-3.3.1.min.js"></script>
+  <!-- bootstrap js Resource -->
+  <script src="./lib/bootstrap.min.js"></script>
+  <!-- layui js Resource -->
+  <script src="./lib/layui.js"></script>
+</head>
+
+<body>
+  <!-- Settings Page -->
+  <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel1">SDK settings</h4>
+        </div>
+        <div class="modal-body">
+          <form id="settingForm" class="layui-form" action="" name="form" lay-filter="settingForm">
+            <div class="layui-form-item" id="fontFamily">
+              <label class="layui-form-label">Font</label>
+              <div class="layui-input-block">
+                <select name="fontFamily">
+                  <option value="system">system font</option>
+                  <option value="ZgFont">Siyuan Yahei</option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item" id="thumbnailMode">
+              <label class="layui-form-label">Thumbnail sharpness</label>
+              <div class="layui-input-block">
+                <select name="thumbnailMode">
+                  <option value="1">normal</option>
+                  <option value="2">SD</option>
+                  <option value="3">HD</option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item" id="disableH5ImageDrag">
+              <label class="layui-form-label">PPT picture drag</label>
+              <div class="layui-input-block">
+                <select name="disableH5ImageDrag">
+                  <option value="false">allow</option>
+                  <option value="true">disabled</option>
+                </select>
+              </div>
+            </div>
+            <div class="layui-form-item" id="pptStepMode">
+              <label class="layui-form-label">PPT Step Mode</label>
+              <div class="layui-input-block">
+                <select name="pptStepMode">
+                  <option value="1">narmal</option>
+                  <option value="2">do not jump</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Login Page -->
+  <div id="login-page">
+    <!-- SDK Settings Icon -->
+    <span id="sdk-setting" data-toggle="modal" data-target="#settingModal">SDK settings</span>
+
+    <!-- Login List -->
+    <div id="login-form">
+      <div class="login-form-left hidden-xs hidden-sm">
+        <!-- Background images on the left are hidden on mobile devices. -->
+        <img src="./img/logo.png" alt="" class="logo" />
+        <img src="./img/login-bg.png" alt="" class="login-bg" />
+      </div>
+      <div class="login-form-right">
+        <!-- Right Form -->
+        <p class="form-title">SuperBoard</p>
+        <input id="roomID" class="form-control" type="text" placeholder="room ID" />
+        <input id="userName" class="form-control" type="text" placeholder="userName" />
+        <input id="userID" class="form-control" type="text" placeholder=" userID" />
+        <button type="button" id="login-btn" class="btn btn-primary">
+          join room
+        </button>
+        <div class="login-env"><span>Access environment</span></div>
+        <label class="radio-inline" style="margin-right: 30px">
+          <input type="radio" name="inlineRadioOptions" class="inlineRadio" value="1" checked />
+          Mainland China
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="inlineRadioOptions" class="inlineRadio" value="2" />
+          oversea
+        </label>
+        <p class="env-desc">The environment is not interoperable, please ensure that the experiencers are connected to
+          the same environment</p>
+      </div>
+    </div>
+  </div>
+  <!-- Room Page -->
+  <div id="room-page">
+    <div id="room-page-left">
+      <div id="left-header">
+        <!-- Room ID -->
+        <span class="room-id">ROOM ID: <span id="showRoomID"></span></span>
+        <form id="customForm" class="layui-form" name="customForm" action="" lay-filter="customForm">
+          <!-- Whiteboard List -->
+          <div class="layui-form-item">
+            <div class="layui-input-inline">
+              <select name="whiteboard" id="whiteboardList" lay-filter="whiteboardList">
+              </select>
+            </div>
+          </div>
+          <!-- Excel multiple whiteboards -->
+          <div class="layui-form-item" id="sheetListItem" style="display:none">
+            <div class="layui-input-inline">
+              <select name="sheet" id="sheetList" lay-filter="sheetList"> </select>
+            </div>
+          </div>
+          <!-- Page Break -->
+          <div class="page-bar">
+            <div id="previousPage" class="page-bar-arrow arrow-prev">
+              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                style="enable-background: new 0 0 12 12" xml:space="preserve">
+                <polyline class="hover-stroke" fill="none" stroke="#585C60" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" points="8,10 4,6 8,2 "></polyline>
+              </svg>
+            </div>
+            <div class="page-bar-center"><span id="currPage">1</span> / <span id="pageCount">1</span></div>
+            <div id="nextPage" class="page-bar-arrow arrow-next">
+              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                style="enable-background: new 0 0 12 12" xml:space="preserve">
+                <polyline class="hover-stroke" fill="none" stroke="#585C60" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" points="4,2 8,6 4,10 "></polyline>
+              </svg>
+            </div>
+          </div>
+          <!-- Zoom -->
+          <div class="scale-bar">
+            <div id="setScaleFactorCut" class="scale-bar-operation scale-cut">
+              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20"
+                style="enable-background: new 0 0 20 20" xml:space="preserve">
+                <line class="hover-stroke" fill="none" stroke="#585C60" x1="6" y1="10" x2="14" y2="10"></line>
+              </svg>
+            </div>
+            <div class="scale-bar-center">
+              <select name="scale" id="scaleList" lay-filter="scaleList"
+                style="appearance: none; border: none; outline: none">
+                <option value="1">100%</option>
+                <option value="1.25">125%</option>
+                <option value="1.5">150%</option>
+                <option value="1.75">175%</option>
+                <option value="2">200%</option>
+                <option value="2.25">225%</option>
+                <option value="2.5">250%</option>
+                <option value="2.75">275%</option>
+                <option value="3">300%</option>
+              </select>
+            </div>
+            <div id="setScaleFactorAdd" class="scale-bar-operation scale-add">
+              <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 20 20"
+                style="enable-background: new 0 0 20 20" xml:space="preserve">
+                <line class="hover-stroke" fill="none" stroke="#585C60" x1="10" y1="6" x2="10" y2="14"></line>
+                <line class="hover-stroke" fill="none" stroke="#585C60" x1="6" y1="10" x2="14" y2="10"></line>
+              </svg>
+            </div>
+          </div>
+        </form>
+        <!-- Thumbnail Preview -->
+        <div id="thumb-button">
+          <span class="button-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="20">
+              <path class="hover-fill" fill="#b1b4bd" d="M16,2.3H4C2.5,2.3,1.3,3.5,1.3,5v10c0,1.5,1.2,2.7,2.7,2.7h12c1.5,0,2.7-1.2,2.7-2.7V5
+        C18.7,3.5,17.5,2.3,16,2.3z M2.7,15V5c0-0.7,0.6-1.3,1.3-1.3h6.3v12.6H4C3.3,16.3,2.7,15.7,2.7,15z M17.3,15
+        c0,0.7-0.6,1.3-1.3,1.3h-4.3V3.7H16c0.7,0,1.3,0.6,1.3,1.3V15z"></path>
+              <path class="hover-fill" fill="#b1b4bd"
+                d="M15.6,5.9h-2c-0.4,0-0.7,0.3-0.7,0.7s0.3,0.7,0.7,0.7h2c0.4,0,0.7-0.3,0.7-0.7S16,5.9,15.6,5.9z"></path>
+              <path class="hover-fill" fill="#b1b4bd"
+                d="M15.6,8.7h-2c-0.4,0-0.7,0.3-0.7,0.7s0.3,0.7,0.7,0.7h2c0.4,0,0.7-0.3,0.7-0.7S16,8.7,15.6,8.7z"></path>
+              <path class="hover-fill" fill="#b1b4bd"
+                d="M15.6,11.5h-2c-0.4,0-0.7,0.3-0.7,0.7s0.3,0.7,0.7,0.7h2c0.4,0,0.7-0.3,0.7-0.7S16,11.5,15.6,11.5z">
+              </path>
+            </svg>
+          </span>
+          <span>preview</span>
+        </div>
+      </div>
+      <div id="left-main">
+        <!-- Whiteboard Drawing Area Placeholder -->
+        <div id="main-whiteboard-placeholder" class="active">
+          <div class="share-content">Please select the content to share</div>
+          <div class="share-button">
+            <button type="button" class="shareWhiteboard" onclick="createWhiteboardView()">
+              <span>whiteboard</span>
+            </button>
+            <button id="shareFile" type="button" data-toggle="modal" data-target="#filelistModal">
+              <span>file</span>
+            </button>
+          </div>
+        </div>
+        <!-- Whiteboard Drawing Area -->
+        <div id="main-whiteboard"></div>
+        <!-- Whiteboard Toolbar -->
+        <div id="main-whiteboard-tool">
+          <ul class="tools-list">
+            <li class="tool-item disabled clickType" data-toggle="tooltip" data-placement="right" title="Click"
+              onclick="setToolType(256,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <defs>
+                    <style>
+                      .cls-1 {
+                        fill: #fff;
+                        opacity: 0;
+                      }
+                    </style>
+                  </defs>
+                  <rect class="cls-1" width="20" height="20" transform="translate(20) rotate(90)"></rect>
+                  <path class="hover-fill" fill="#b0b3ba"
+                    d="M10.5,10V6.24A1.23,1.23,0,0,0,9.26,5h0A1.24,1.24,0,0,0,8,6.24v7.49L6.61,12.32a1.24,1.24,0,0,0-1.75,1.75L8.77,18a5.5,5.5,0,0,0,3.73,2H13a4.47,4.47,0,0,0,4.47-4.47v-3a1.81,1.81,0,0,0-1.56-1.79Z">
+                  </path>
+                  <rect class="hover-fill" fill="#b0b3ba" x="8.47" y="1" width="1.6" height="3" rx="0.8"></rect>
+                  <rect class="hover-fill" fill="#b0b3ba" x="5.28" y="2.32" width="1.6" height="3" rx="0.8"
+                    transform="translate(-0.92 5.42) rotate(-45)"></rect>
+                  <rect class="hover-fill" fill="#b0b3ba" x="3.97" y="5.5" width="1.6" height="3" rx="0.8"
+                    transform="translate(-2.23 11.77) rotate(-90)"></rect>
+                  <rect class="hover-fill" fill="#b0b3ba" x="12.97" y="5.5" width="1.6" height="3" rx="0.8"
+                    transform="translate(20.77 -6.77) rotate(90)"></rect>
+                  <rect class="hover-fill" fill="#b0b3ba" x="11.65" y="2.32" width="1.6" height="3" rx="0.8"
+                    transform="translate(6.35 -7.68) rotate(45)"></rect>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Click</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Select"
+              onclick="setToolType(32,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path class="hover-fill" fill="#b1b4bb"
+                    d="M3,3.55,7,16.4a.86.86,0,0,0,1.62.05l1.81-4.82a2,2,0,0,1,1.17-1.17l4.82-1.81a.85.85,0,0,0,0-1.61L3.55,3A.42.42,0,0,0,3,3.55Z">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Select</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Drag"
+              onclick="setToolType(null,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M11.2,9.6V3.13a1.12,1.12,0,0,0-1-1.12A1.09,1.09,0,0,0,9,3.1V9.6a.4.4,0,0,1-.4.4h0a.4.4,0,0,1-.4-.4v-5a1.12,1.12,0,0,0-1-1.12A1.09,1.09,0,0,0,6,4.6v5.73a.26.26,0,0,1-.48.12l-.46-.86a1.1,1.1,0,0,0-1.58-.4,1.13,1.13,0,0,0-.35,1.46l.75,1.41.06.1.26.49h0c.31.58.73,1.4,1.21,2.22A6.65,6.65,0,0,0,11,18c7,0,6.2-7.1,6.2-7.1V6.13a1.12,1.12,0,0,0-1-1.12A1.09,1.09,0,0,0,15,6.1V9.6a.4.4,0,0,1-.4.4h0a.4.4,0,0,1-.4-.4V4.13a1.12,1.12,0,0,0-1-1.12A1.09,1.09,0,0,0,12,4.1V9.6a.4.4,0,0,1-.4.4h0A.4.4,0,0,1,11.2,9.6Z">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Drag</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Laser"
+              onclick="setToolType(128,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <g id="Layer_2" data-name="Layer 2">
+                    <g id="Layer_1-2" data-name="Layer 1">
+                      <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" width="20" height="20"
+                        transform="translate(20) rotate(90)"></path>
+                      <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                        d="M14.8,18.34a1,1,0,0,0,1.42,0l2.12-2.12a1,1,0,0,0,0-1.42L11.27,7.73,7.73,11.27ZM7.73,5.61,5.61,7.73a1,1,0,0,0,0,1.42L7,10.56,10.56,7,9.15,5.61A1,1,0,0,0,7.73,5.61Z">
+                      </path>
+                      <rect class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" x="9.61" y="3.04" width="2.6"
+                        height="1.6" rx="0.8" transform="translate(0.48 8.84) rotate(-45)"></rect>
+                      <rect class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" x="6.37" y="1.87" width="2.6"
+                        height="1.6" rx="0.8" transform="translate(5 10.34) rotate(-90)"></rect>
+                      <rect class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" x="3.25" y="3.75" width="2.6"
+                        height="1.6" rx="0.8" transform="translate(4.55 10.98) rotate(-135)"></rect>
+                      <rect class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" x="1.37" y="6.87" width="2.6"
+                        height="1.6" rx="0.8" transform="translate(5.34 15.34) rotate(180)"></rect>
+                      <rect class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" x="2.54" y="10.11" width="2.6"
+                        height="1.6" rx="0.8" transform="translate(14.28 15.91) rotate(135)"></rect>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Laser Pen</div> -->
+            </li>
+            <li class="tool-item active pen" data-toggle="tooltip" data-placement="right" title="Pen"
+              onclick="setToolType(1,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path class="hover-fill" fill="#b1b4bb"
+                    d="M14.71,3.29h0a3,3,0,0,1,3,3v1a0,0,0,0,1,0,0h-6a0,0,0,0,1,0,0v-1a3,3,0,0,1,3-3Z"
+                    transform="translate(8.05 -8.85) rotate(45)"></path>
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M7.13,16.5,3.7,17A.61.61,0,0,1,3,16.31l.49-3.43a2.29,2.29,0,0,1,.62-1.25l6.56-6.55,4.24,4.24L8.36,15.88A2.23,2.23,0,0,1,7.13,16.5Z">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Pen</div> -->
+              <div class="pencil-text-setting pen">
+                <div class="common-box pencil-box">
+                  <div class="setting-title pencil-thickness">pencil thickness</div>
+                  <ul class="bs-list">
+                    <li class="bs-item" data-bs="4" data-index="1" style="width: 4px; height: 4px; margin-top: 3px"
+                      onclick="setBrushSize(4, event)"></li>
+                    <li class="bs-item active" data-bs="6" data-index="2"
+                      style="width: 6px; height: 6px; margin-top: 2px" onclick="setBrushSize(6, event)"></li>
+                    <li class="bs-item" data-bs="8" data-index="3" style="width: 8px; height: 8px; margin-top: 1px"
+                      onclick="setBrushSize(8, event)"></li>
+                    <li class="bs-item" data-bs="10" data-index="4" data-bs="10" data-index="4"
+                      style="width: 10px; height: 10px; margin-top: 0px" onclick="setBrushSize(10, event)"></li>
+                  </ul>
+                </div>
+                <div class="common-box">
+                  <div class="setting-title">stroke color</div>
+                  <ul class="color-list">
+                    <li class="color-item" style="background: rgb(255, 255, 255)" data-index="1"
+                      onclick="setBrushColor('rgb(255, 255, 255)', event)">
+                      <div class="checkmark white">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(164, 164, 164)" data-index="2"
+                      onclick="setBrushColor('rgb(164, 164, 164)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(38, 38, 38)" data-index="3"
+                      onclick="setBrushColor('rgb(38, 38, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(0, 0, 0)" data-index="4"
+                      onclick="setBrushColor('rgb(0, 0, 0)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item active" style="background: rgb(246, 67, 38)" data-index="5"
+                      onclick="setBrushColor('rgb(246, 67, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(253, 120, 3)" data-index="6"
+                      onclick="setBrushColor('rgb(253, 120, 3)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(249, 228, 10)" data-index="7"
+                      onclick="setBrushColor('rgb(249, 228, 10)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(55, 177, 66)" data-index="8"
+                      onclick="setBrushColor('rgb(55, 177, 66)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(31, 232, 224)" data-index="9"
+                      onclick="setBrushColor('rgb(31, 232, 224)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(14, 107, 254)" data-index="10"
+                      onclick="setBrushColor('rgb(14, 107, 254)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(110, 69, 197)" data-index="11"
+                      onclick="setBrushColor('rgb(110, 69, 197)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(247, 102, 107)" data-index="12"
+                      onclick="setBrushColor('rgb(247, 102, 107)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Text"
+              onclick="setToolType(2,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <polygon class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" points="17 5 3 5 4 3 17 3 17 5">
+                  </polygon>
+                  <polygon class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" points="9 5 6 17 10 17 12 5 9 5">
+                  </polygon>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Text</div> -->
+              <div class="pencil-text-setting text">
+                <div class="common-box text-box">
+                  <div class="setting-title">font</div>
+                  <ul class="pencil-style">
+                    <li class="pencil-style-item" onclick="setFontBold(event)">
+                      <div class="style-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                          <path class="font-fill" fill="#585c62"
+                            d="M9.22,7.87a2.61,2.61,0,0,1-.19,1,2.84,2.84,0,0,1-.55.84,2.75,2.75,0,0,1-.82.57,2.54,2.54,0,0,1-1,.2H3.58a.81.81,0,0,1-.8-.82V2.32a.81.81,0,0,1,.8-.82H6.05a2.54,2.54,0,0,1,1,.2,2.58,2.58,0,0,1,.81.57,2.5,2.5,0,0,1,.55.84,2.69,2.69,0,0,1,.2,1A2.51,2.51,0,0,1,8.47,5a2.91,2.91,0,0,1-.37.75,2.65,2.65,0,0,1,.82.94A2.57,2.57,0,0,1,9.22,7.87ZM7.13,4.12A1,1,0,0,0,7,3.7a1,1,0,0,0-.23-.36,1.16,1.16,0,0,0-.34-.24A1.06,1.06,0,0,0,6.05,3H4.36V5.23H6.05a1.25,1.25,0,0,0,.42-.08,1.16,1.16,0,0,0,.34-.24A1,1,0,0,0,7,4.56,1.08,1.08,0,0,0,7.13,4.12Zm.62,3.74a1.2,1.2,0,0,0-.08-.42,1.13,1.13,0,0,0-.24-.36,1,1,0,0,0-.34-.24,1,1,0,0,0-.42-.09H4.36V9H6.67a1,1,0,0,0,.42-.08,1,1,0,0,0,.34-.24,1.21,1.21,0,0,0,.24-.35A1.27,1.27,0,0,0,7.75,7.86Z">
+                          </path>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="pencil-style-item" onclick="setFontItalic(event)">
+                      <div class="style-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+                          <path class="font-fill" fill="#585c62"
+                            d="M7.76,9.52H6l1.5-7H9.26A.63.63,0,0,0,9.85,2a.38.38,0,0,0-.38-.49h-5A.64.64,0,0,0,3.85,2a.39.39,0,0,0,.39.49H6l-1.5,7H2.74a.63.63,0,0,0-.59.49.38.38,0,0,0,.38.49h5A.64.64,0,0,0,8.15,10,.39.39,0,0,0,7.76,9.52Z">
+                          </path>
+                        </svg>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="setting-title">font size</div>
+                  <ul class="pencil-size">
+                    <li class="pencil-size-item" data-index="1" onclick="setFontSize(18,event)">18</li>
+                    <li class="pencil-size-item active" data-index="2" onclick="setFontSize(24,event)">24</li>
+                    <li class="pencil-size-item" data-index="3" onclick="setFontSize(36, event)">36</li>
+                    <li class="pencil-size-item" data-index="4" onclick="setFontSize(48, event)">48</li>
+                  </ul>
+                </div>
+                <div class="common-box">
+                  <div class="setting-title">text color</div>
+                  <ul class="color-list">
+                    <li class="color-item" style="background: rgb(255, 255, 255)" data-index="1"
+                      onclick="setBrushColor('rgb(255, 255, 255)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(164, 164, 164)" data-index="2"
+                      onclick="setBrushColor('rgb(164, 164, 164)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(38, 38, 38)" data-index="3"
+                      onclick="setBrushColor('rgb(38, 38, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(0, 0, 0)" data-index="4"
+                      onclick="setBrushColor('rgb(0, 0, 0)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item active" style="background: rgb(246, 67, 38)" data-index="5"
+                      onclick="setBrushColor('rgb(246, 67, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(253, 120, 3)" data-index="6"
+                      onclick="setBrushColor('rgb(253, 120, 3)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(249, 228, 10)" data-index="7"
+                      onclick="setBrushColor('rgb(249, 228, 10)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(55, 177, 66)" data-index="8"
+                      onclick="setBrushColor('rgb(55, 177, 66)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(31, 232, 224)" data-index="9"
+                      onclick="setBrushColor('rgb(31, 232, 224)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(14, 107, 254)" data-index="10"
+                      onclick="setBrushColor('rgb(14, 107, 254)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(110, 69, 197)" data-index="11"
+                      onclick="setBrushColor('rgb(110, 69, 197)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(247, 102, 107)" data-index="12"
+                      onclick="setBrushColor('rgb(247, 102, 107)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Graphics"
+              onclick="setToolType(undefined,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <defs>
+                    <style>
+                      .cls-1 {
+                        fill: #fff;
+                        opacity: 0;
+                      }
+                    </style>
+                  </defs>
+                  <rect class="cls-1" width="20" height="20" transform="translate(20) rotate(90)"></rect>
+                  <path class="hover-fill" fill-rule="evenodd" fill="#b1b4bb"
+                    d="M14,4.5V7a4.07,4.07,0,0,0-.5,0A5.5,5.5,0,0,0,8,12.5,5.33,5.33,0,0,0,8.21,14H3.5A1.5,1.5,0,0,1,2,12.5v-8A1.5,1.5,0,0,1,3.5,3h9A1.5,1.5,0,0,1,14,4.5Z">
+                  </path>
+                  <circle class="hover-fill" fill="#b1b4bb" cx="13.5" cy="12.5" r="4.5"></circle>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Graph</div> -->
+              <div class="pencil-text-setting graph">
+                <div class="common-box pencil-box">
+                  <div class="setting-title pencil-thickness">shape selection</div>
+                  <ul class="pencil-style">
+                    <li class="graph-style-item active" onclick="setToolType(8, event)">
+                      <div class="style-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path class="graph-fill" fill="#b0b3ba" d="M14.2,6.8v6.4H5.8V6.8h8.4M17,4H3V16H17V4Z"></path>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="graph-style-item" onclick="setToolType(16,event)">
+                      <div class="style-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path class="graph-fill" fill="#b0b3ba"
+                            d="M10,5.8A4.2,4.2,0,1,1,5.8,10,4.2,4.2,0,0,1,10,5.8M10,3a7,7,0,1,0,7,7,7,7,0,0,0-7-7Z">
+                          </path>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="graph-style-item" onclick="setToolType(4,event)">
+                      <div class="style-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <line class="graph-stroke" fill="none" stroke="#b0b3ba" stroke-miterlimit="10"
+                            stroke-width="2.8px" x1="17" y1="3" x2="3" y2="17"></line>
+                        </svg>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="common-box pencil-box">
+                  <div class="setting-title pencil-thickness">stroke thickness</div>
+                  <ul class="bs-list">
+                    <li class="bs-item" data-bs="4" data-index="1" style="width: 4px; height: 4px; margin-top: 3px"
+                      onclick="setBrushSize(4, event)"></li>
+                    <li class="bs-item active" data-bs="6" data-index="2"
+                      style="width: 6px; height: 6px; margin-top: 2px" onclick="setBrushSize(6, event)"></li>
+                    <li class="bs-item" data-bs="8" data-index="3" style="width: 8px; height: 8px; margin-top: 1px"
+                      onclick="setBrushSize(8, event)"></li>
+                    <li class="bs-item" data-bs="10" data-index="4" style="width: 10px; height: 10px; margin-top: 0px"
+                      onclick="setBrushSize(10, event)"></li>
+                  </ul>
+                </div>
+                <div class="common-box">
+                  <div class="setting-title">stroke color</div>
+                  <ul class="color-list">
+                    <li class="color-item" style="background: rgb(255, 255, 255)" data-index="1"
+                      onclick="setBrushColor('rgb(255, 255, 255)', event)">
+                      <div class="checkmark white">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(164, 164, 164)" data-index="2"
+                      onclick="setBrushColor('rgb(164, 164, 164)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(38, 38, 38)" data-index="3"
+                      onclick="setBrushColor('rgb(38, 38, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(0, 0, 0)" data-index="4"
+                      onclick="setBrushColor('rgb(0, 0, 0)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item active" style="background: rgb(246, 67, 38)" data-index="5"
+                      onclick="setBrushColor('rgb(246, 67, 38)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(253, 120, 3)" data-index="6"
+                      onclick="setBrushColor('rgb(253, 120, 3)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(249, 228, 10)" data-index="7"
+                      onclick="setBrushColor('rgb(249, 228, 10)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(55, 177, 66)" data-index="8"
+                      onclick="setBrushColor('rgb(55, 177, 66)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(31, 232, 224)" data-index="9"
+                      onclick="setBrushColor('rgb(31, 232, 224)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(14, 107, 254)" data-index="10"
+                      onclick="setBrushColor('rgb(14, 107, 254)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(110, 69, 197)" data-index="11"
+                      onclick="setBrushColor('rgb(110, 69, 197)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                    <li class="color-item" style="background: rgb(247, 102, 107)" data-index="12"
+                      onclick="setBrushColor('rgb(247, 102, 107)', event)">
+                      <div class="checkmark">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                          xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 12 12"
+                          style="enable-background: new 0 0 12 12" xml:space="preserve">
+                          <polyline class="stroke" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"
+                            stroke-linejoin="round" points="3,6 5,8 9,4 "></polyline>
+                        </svg>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <li class="tool-item " data-toggle="tooltip" data-placement="right" title="Custom graphics"
+              onclick="setToolType(512,event)">
+              <div class="custom-graph-icon"></div>
+              <ul class="custom-graph-setting"></ul>
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Eraser"
+              onclick="setToolType(64,event)">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M2.35,12.25l5.4,5.4a1.18,1.18,0,0,0,1.67,0l8.23-8.23a1.18,1.18,0,0,0,0-1.67l-5.4-5.4a1.18,1.18,0,0,0-1.67,0L2.35,10.58A1.18,1.18,0,0,0,2.35,12.25Zm4.26-3.1a.8.8,0,0,1,1.13,0l3.11,3.11a.8.8,0,0,1,0,1.13l-1.7,1.7a.8.8,0,0,1-1.13,0L4.91,12a.8.8,0,0,1,0-1.13Z">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Eraser</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Clear" onclick="clearAllPage()">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M17,9V7a1,1,0,0,0-1-1H12V4a1,1,0,0,0-1-1H9A1,1,0,0,0,8,4V6H4A1,1,0,0,0,3,7V9a1,1,0,0,0,1,1l-.84,5.86a1,1,0,0,0,1,1.14h11.7a1,1,0,0,0,1-1.14L16,10A1,1,0,0,0,17,9ZM7.8,14.7a.8.8,0,0,1-1.6,0V12.8a.8.8,0,1,1,1.6,0Zm3,0a.8.8,0,0,1-1.6,0V11.3a.8.8,0,0,1,1.6,0Zm3,0a.8.8,0,0,1-1.6,0V12.8a.8.8,0,0,1,1.6,0Z">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Clear</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Undo" onclick="undo()">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <polygon class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" points="8 3 8 11 2 7 8 3"></polygon>
+                  <path class="hover-stroke" fill-rule="evenodd" fill="none" stroke="#b1b4bb" stroke-miterlimit="10"
+                    stroke-width="2.8px" d="M7.5,7h4.75a4.25,4.25,0,0,1,4.25,4.25h0a4.25,4.25,0,0,1-4.25,4.25H11">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Undo</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Redo" onclick="redo()">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <polygon class="hover-fill" fill="#b1b4bb" fill-rule="evenodd" points="11.9 3 11.9 11 17.9 7 11.9 3">
+                  </polygon>
+                  <path class="hover-stroke" fill-rule="evenodd" fill="none" stroke="#b1b4bb" stroke-miterlimit="10"
+                    stroke-width="2.8px" d="M12.4,7H7.65A4.25,4.25,0,0,0,3.4,11.25h0A4.25,4.25,0,0,0,7.65,15.5H8.9">
+                  </path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Redo</div> -->
+            </li>
+            <li class="tool-item" data-toggle="tooltip" data-placement="right" title="Snapshot" onclick="snapshot()">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <defs>
+                    <style>
+                      .cls-1 {
+                        fill: #fff;
+                        opacity: 0;
+                      }
+
+                      .cls-2 {
+                        fill: #b0b3ba;
+                      }
+                    </style>
+                  </defs>
+                  <rect class="cls-1" width="20" height="20" transform="translate(20) rotate(90)"></rect>
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M16.53,5.53,14.47,3.47A1.61,1.61,0,0,0,13.34,3H10V6A1,1,0,0,1,9,7H6A1,1,0,0,1,5,6V3H4.6A1.6,1.6,0,0,0,3,4.6V15.4A1.6,1.6,0,0,0,4.6,17H15.4A1.6,1.6,0,0,0,17,15.4V6.66A1.61,1.61,0,0,0,16.53,5.53ZM15,14.3a.7.7,0,0,1-.7.7H5.7a.7.7,0,0,1-.7-.7V10.7a.7.7,0,0,1,.7-.7h8.6a.7.7,0,0,1,.7.7Z">
+                  </path>
+                  <path class="hover-fill" fill="#b1b4bb" fill-rule="evenodd"
+                    d="M6,3H9A0,0,0,0,1,9,3V5.4a.6.6,0,0,1-.6.6H6.6A.6.6,0,0,1,6,5.4V3A0,0,0,0,1,6,3Z"></path>
+                </svg>
+              </div>
+              <!-- <div class="tooltip">Save</div> -->
+            </li>
+          </ul>
+        </div>
+        <!-- PPT Step Skipping -->
+        <div class="ppt-dynamic">
+          <button id="previousStep" class="step-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <rect class="cls-1" fill="none" width="20" height="20"></rect>
+              <polyline class="hover-stroke" fill="none" stroke="#b1b4bb" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" points="13 4 7 10 13 16"></polyline>
+            </svg>
+          </button>
+          <div class="line"></div>
+          <button id="nextStep" class="step-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <rect class="cls-1" fill="none" width="20" height="20"></rect>
+              <polyline class="hover-stroke" fill="none" stroke="#b1b4bb" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" points="7 4 13 10 7 16"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="left-footer">
+        <!-- Whiteboard -->
+        <div class="share-item shareWhiteboard" onclick="createWhiteboardView()">
+          <div class="si-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+              <path class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px"
+                d="M8.21,5.5H23.79A2.69,2.69,0,0,1,26.5,8.17V18.83a2.69,2.69,0,0,1-2.71,2.67H8.21A2.69,2.69,0,0,1,5.5,18.83V8.17A2.69,2.69,0,0,1,8.21,5.5Z">
+              </path>
+              <line class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px" x1="5"
+                y1="26.5" x2="27" y2="26.5"></line>
+              <path class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px"
+                d="M10.66,13.93c4.9-3.89,4.27,2.36,11-2.61"></path>
+            </svg>
+          </div>
+          <div class="si-name">whiteboard</div>
+        </div>
+        <!-- File -->
+        <div class="share-item file" data-toggle="modal" data-target="#filelistModal">
+          <div class="si-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+              <path class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px"
+                d="M8.5,5.5h4.76a.6.6,0,0,1,.6.6V8.9a.6.6,0,0,0,.6.6h9a3,3,0,0,1,3,3v11a3,3,0,0,1-3,3H8.5a3,3,0,0,1-3-3V8.5A3,3,0,0,1,8.5,5.5Z">
+              </path>
+              <line class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px"
+                x1="6.79" y1="15.5" x2="25.74" y2="15.5"></line>
+              <line class="hover-stroke" fill="none" stroke="#585c62" stroke-miterlimit="10" stroke-width="2.4px"
+                x1="10.85" y1="20.5" x2="15.59" y2="20.5"></line>
+            </svg>
+          </div>
+          <div class="si-name">file</div>
+        </div>
+        <!-- Invite -->
+        <div class="inivate-btn" data-toggle="modal" data-target="#inivateModal">
+          <div class="inivate-icon">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32"
+              style="enable-background: new 0 0 32 32" xml:space="preserve">
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" d="M14,4.5L14,4.5c2.5,0,4.5,2,4.5,4.5l0,0c0,2.5-2,4.5-4.5,4.5l0,0c-2.5,0-4.5-2-4.5-4.5l0,0
+              C9.5,6.5,11.5,4.5,14,4.5z"></path>
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10"
+                d="M6.5,29v-7.5c0-2.2,1.8-4,4-4h8"></path>
+              <line class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10"
+                x1="22.5" y1="18" x2="22.5" y2="27"></line>
+              <line class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10" x1="27"
+                y1="22.5" x2="18" y2="22.5"></line>
+            </svg>
+          </div>
+          <div class="inivate-name">invite</div>
+        </div>
+        <!-- Member List -->
+        <div class="member-btn" data-toggle="modal" data-target="#memberModal">
+          <div class="member-icon">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32"
+              style="enable-background: new 0 0 32 32" xml:space="preserve">
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10" d="M11,4.5L11,4.5c2.5,0,4.5,2,4.5,4.5l0,0c0,2.5-2,4.5-4.5,4.5l0,0c-2.5,0-4.5-2-4.5-4.5l0,0
+              C6.5,6.5,8.5,4.5,11,4.5z"></path>
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10"
+                d="M17,13.5L17,13.5c2.5,0,4.5-2,4.5-4.5l0,0c0-2.5-2-4.5-4.5-4.5l0,0"></path>
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10"
+                d="M3.5,29v-7.5c0-2.2,1.8-4,4-4h8"></path>
+              <path class="hover-stroke" fill="none" stroke="#585C62" stroke-width="2.4" stroke-miterlimit="10"
+                d="M17,13.5h5.5c1.7,0,3,1.3,3,3l0,0"></path>
+            </svg>
+          </div>
+          <div class="member-name">member</div>
+          <div id="memberNum">1</div>
+        </div>
+        <!-- Leave Room -->
+        <button id="logout-btn">
+          <span class="button-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <polyline class="hover-stroke" fill="none" stroke="#b1b4bd" stroke-width="2" fill-rule="evenodd"
+                points="9.5 16 3 16 3 4 9.5 4"></polyline>
+              <line class="hover-stroke" fill="none" stroke-width="2" stroke="#b1b4bd" x1="7" y1="10" x2="16" y2="10">
+              </line>
+              <polyline class="hover-stroke" fill="none" stroke="#b1b4bd" stroke-width="2" fill-rule="evenodd"
+                points="12.5 6 16.5 10 12.5 14"></polyline>
+            </svg>
+          </span>
+          <span>logout</span>
+        </button>
+      </div>
+    </div>
+    <div id="room-page-right">
+      <!-- Draw Whiteboard File -->
+      <div id="right-header">
+        <div class="nav-item active" data-index="1">Draw</div>
+        <div class="nav-item" data-index="2">Whiteboard</div>
+        <div class="nav-item" data-index="3">File</div>
+      </div>
+      <!-- Whiteboard Function Area -->
+      <div id="right-main">
+        <!-- Draw -->
+        <div class="main-feature active" data-index="1">
+          <form id="form1" class="layui-form" action="" name="form1" lay-filter="form1">
+            <!-- Handwriting Effect -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Handwriting Effect</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="handwriting" lay-skin="switch" lay-filter="handwriting"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <!-- Clear Tools -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Clear Tools</label>
+              <div class="layui-input-block">
+                <button onclick="clearCurrentPage()" type="button" class="layui-btn layui-btn-sm">
+                  clear current page
+                </button>
+                <button onclick="clearSelected()" type="button" class="layui-btn layui-btn-sm">
+                  clear Selected
+                </button>
+              </div>
+            </div>
+            <!-- Custom Graph -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Custom Graph</label>
+              <div class="layui-input-inline" style="margin-left: 10px;">
+                <input name="customGraphUrl" type="text" placeholder="Please enter graphic URL" class="layui-input" />
+              </div>
+              <button id="addImageByURLBtn1" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Background Image -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Background Image
+            </div>
+            <!-- Padding Mode Setting -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Padding Mode Setting </label>
+              <div class="layui-input-block">
+                <select name="imageFitMode" lay-filter="imageFitMode">
+                  <option value="0">Align left</option>
+                  <option value="1">align right</option>
+                  <option value="2">Align Bottom</option>
+                  <option value="3">Align top</option>
+                  <option value="4">Center</option>
+                </select>
+              </div>
+            </div>
+            <!-- Network Image -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Network Image</label>
+              <div class="layui-input-block">
+                <select id="bgList" name="bgUrl" lay-filter="bgUrl"></select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-inline" style="margin-left: 10px;">
+                <input name="customBgUrl" type="text" placeholder="Please enter image URL" class="layui-input" />
+              </div>
+              <button id="setBackgroundImageByURLBtn" type="button" class="layui-btn layui-btn-sm"
+                style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <!-- Local Upload -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Local Upload </label>
+              <div class="layui-input-block">
+                <button name="selectBgImage" type="button" class="layui-btn layui-btn-sm" id="selectBgImage">
+                  Select Image
+                </button>
+                <button id="setBackgroundImageByFileBtn" type="button" class="layui-btn layui-btn-sm"
+                  id="uploadBgImage">
+                  Upload Image
+                </button>
+              </div>
+            </div>
+            <!-- Clear -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Clear</label>
+              <div class="layui-input-block">
+                <button id="clearBackgroundImageBtn" type="button" class="layui-btn layui-btn-sm">
+                  clear background image
+                </button>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Insert Image -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Insert Image
+            </div>
+            <!-- Network Image -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Network Image</label>
+              <div class="layui-input-inline" style="margin-left: 10px;">
+                <input name="customImageUrl" type="text" placeholder="Please enter a picture URL" class="layui-input" />
+              </div>
+              <button id="addImageByURLBtn2" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <!-- Local Upload -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Local Upload</label>
+              <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-sm" id="selectImage">
+                  Select Image
+                </button>
+                <button id="addImageByFileBtn" type="button" class="layui-btn layui-btn-sm">
+                  Upload Image
+                </button>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Custom Cursor -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Custom Cursor
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">open cursor</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="enableCustomCursor" checked lay-skin="switch"
+                  lay-filter="enableCustomCursor" lay-text="on|off" />
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Show far end cursor</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="enableRemoteCursorVisible" checked lay-skin="switch"
+                  lay-filter="enableRemoteCursorVisible" lay-text="on|off" />
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">set offset</label>
+              <div class="layui-input-inline" style="width: 100px;margin-left: 10px;">
+                <input id="cursorOffsetX" name="cursorOffsetX" type="text" placeholder="offset X" value="0"
+                  class="layui-input" oninput="value=value.replace('-','')" />
+              </div>
+              <div class="layui-input-inline" style="width: 100px; margin-left: 0">
+                <input id="cursorOffsetY" name="cursorOffsetY" type="text" placeholder="offset Y" value="0"
+                  class="layui-input" oninput="value=value.replace('-','')" />
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Network Image</label>
+              <div class="layui-input-block">
+                <select id="cursorList" name="cursorUrl" lay-filter="cursorUrl"></select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label"></label>
+              <div class="layui-input-inline" style="margin-left: 10px;">
+                <input id="inputCustomCursorUrl" name="inputCustomCursorUrl" type="text"
+                  placeholder="Please enter a picture URL" class="layui-input" />
+              </div>
+              <button id="setCustomCursorByURLBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Upload Local Image</label>
+              <div class="layui-input-block">
+                <button name="selectCursorImage" type="button" class="layui-btn layui-btn-sm" id="selectCursorImage">
+                  Select Image
+                </button>
+                <button id="cursorImageByFileBtn" type="button" class="layui-btn layui-btn-sm">
+                  Upload Image
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- Whiteboard -->
+        <div class="main-feature" data-index="2">
+          <form class="layui-form" action="" name="form2" id="form2" lay-filter="form2">
+            <!-- Whiteboard Function -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Whiteboard Function
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Set render delay</label>
+              <div class="layui-input-inline" style="width: 146px;margin-left: 10px;">
+                <input name="deferredRenderingTime" type="text" placeholder="Rendering Latency (ms)"
+                  class="layui-input" />
+              </div>
+              <button id="setDeferredRenderingTimeBtn" type="button" class="layui-btn layui-btn-sm"
+                style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">destroy</label>
+              <div class="layui-input-block">
+                <button onclick="destroySuperBoardSubView(1)" type="button" class="layui-btn layui-btn-sm">
+                  Destroy the current whiteboard
+                </button>
+                <button onclick="destroySuperBoardSubView(2)" type="button" class="layui-btn layui-btn-sm">
+                  Destroy all whiteboards
+                </button>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Jump to the specified page</label>
+              <div class="layui-input-inline" style="width: 146px;margin-left: 10px;">
+                <input name="targetPage" type="text" placeholder="target page" class="layui-input" />
+              </div>
+              <button id="flipToPageBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                jump
+              </button>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Whiteboard Operation Mode -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Whiteboard Operation Mode
+            </div>
+            <!-- Non-Operational Mode -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Non-Operational Mode</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="unOperatedMode" lay-filter="unOperatedMode" lay-skin="switch"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <!-- Scrolling Mode -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Scrolling Mode</label>
+              <div class="layui-input-block">
+                <input type="checkbox" checked="" name="scrollMode" lay-filter="scrollMode" lay-skin="switch"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <!-- Drawing Mode -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Drawing Mode</label>
+              <div class="layui-input-block">
+                <input type="checkbox" checked="" name="drawMode" lay-filter="drawMode" lay-skin="switch"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <!-- Zooming Mode -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Zooming Mode</label>
+              <div class="layui-input-block">
+                <input type="checkbox" checked="" name="scaleMode" lay-filter="scaleMode" lay-skin="switch"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Whiteboard Zooming-->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Whiteboard Zooming
+            </div>
+            <!-- Synchronous Zooming -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Synchronous Zooming</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="syncScale" lay-filter="syncScale" lay-skin="switch" lay-text="on|off" />
+              </div>
+            </div>
+            <!-- Responding zooming -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Responding zooming</label>
+              <div class="layui-input-block">
+                <input type="checkbox" name="responseScale" lay-filter="responseScale" lay-skin="switch"
+                  lay-text="on|off" />
+              </div>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Whiteboard Container -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Whiteboard Container
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">current container size</label>
+              <div class="layui-input-block">
+                <span id="parentWidthHeight"></span>
+              </div>
+            </div>
+            <!-- Width and Height Setting -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Set container width and height</label>
+              <div class="layui-input-inline" style="width: 100px;margin-left: 10px;">
+                <input name="parentWidth" type="text" placeholder="container width" class="layui-input" />
+              </div>
+              <div class="layui-input-inline" style="width: 100px; margin-left: 0">
+                <input name="parentHeight" type="text" placeholder="container height" class="layui-input" />
+              </div>
+              <button id="setParentSizeBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <!-- Full Screen -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">Full Screen</label>
+              <div class="layui-input-block">
+                <button id="fullScreenBtn" type="button" class="layui-btn layui-btn-sm">Full Screen</button>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #d2d2d2; margin-bottom: 15px"></div>
+            <!-- Token -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              token update
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Validity period</label>
+              <div class="layui-input-inline" style="width: 146px;margin-left: 10px;">
+                <input name="token" type="text" placeholder="Token validity period (s)" class="layui-input"
+                  id="newToken" />
+              </div>
+              <button id="getNewTokenBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+            <!-- Renew Token -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">update token</label>
+              <button id="renewTokenBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                submit
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- File -->
+        <div class="main-feature" data-index="3">
+          <form class="layui-form" action="" name="form3" id="form3" lay-filter="form3">
+            <!-- H5 file -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">H5 file</label>
+              <div class="layui-input-inline" style="width: 86px;margin-left: 10px;z-index:1">
+                <input name="h5Width" type="text" placeholder="width" class="layui-input" />
+              </div>
+              <div class="layui-input-inline" style="width: 86px;z-index:1">
+                <input name="h5Height" type="text" placeholder="height" class="layui-input" />
+              </div>
+              <div class="layui-input-inline" style="width: 86px;margin: 0 0 10px 0;z-index:1">
+                <input name="h5PageCount" type="text" placeholder="page cout" class="layui-input" />
+              </div>
+              <div class="layui-input-block" style="margin-bottom: 6px ">
+                <input name="h5ThumbnailListStr" type="text" placeholder="Thumbnail list string, separated by ','"
+                  class="layui-input" />
+              </div>
+              <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-sm" id="selectH5">
+                  Select the file
+                </button>
+                <button id="uploadH5FileBtn" type="button" class="layui-btn layui-btn-sm">
+                  Upload the file
+                </button>
+              </div>
+            </div>
+            <!-- File ID -->
+            <div class="layui-form-item">
+              <label class="layui-form-label">File ID</label>
+              <div class="layui-input-inline" style="margin-left: 10px">
+                <input name="fileID" type="text" placeholder="please enter fileID" class="layui-input" />
+              </div>
+              <button id="cacheFileBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                Preloading
+              </button>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">File ID</label>
+              <div class="layui-input-inline" style="margin-left: 10px">
+                <input name="createFileID" type="text" placeholder="please enter fileID" class="layui-input" />
+              </div>
+              <button id="createFileBtn" type="button" class="layui-btn layui-btn-sm" style="margin-top: 3px">
+                create
+              </button>
+            </div>
+            <!-- Log Level Setting -->
+            <div style="margin-bottom: 15px; padding-left: 5px; font-size: 16px">
+              Log Level Setting
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">Log Level</label>
+              <div class="layui-input-block">
+                <select name="logLevel" lay-filter="logLevel">
+                  <option value="debug">debug</option>
+                  <option value="info">info</option>
+                  <option value="warn">warn</option>
+                  <option value="error">error</option>
+                  <option value="report">report</option>
+                  <option value="disable">disable</option>
+                </select>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Thumbnail Dialog -->
+    <div id="thumbModal">
+      <div class="thumb-header">preview <span style="float: right;cursor: pointer;">close</span></div>
+      <ul class="thumb-main"></ul>
+    </div>
+    <!-- Select File Dialog -->
+    <div class="modal fade" id="filelistModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- Upload File -->
+            <button class="layui-btn layui-btn-sm" id="openPopover" type="button" style="float: left;">
+              Upload File
+            </button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel2">Select the file</h4>
+          </div>
+          <div class="modal-body">
+            <ul id="file-list"></ul>
+          </div>
+          <div class="modal-footer" style="border-color: rgb(244, 245, 248)">
+            <div style="
+                  text-align: left;
+                  color: #585c62;
+                  font-size: 10px;
+                  padding: 1px 0 1px 15px;
+                ">
+              <span style="margin-right: 10px"> Static: Unable to display PPT animation</span>
+              <span>Dynamic: can display PPT animation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Member List Dialog -->
+    <div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel3">joined member(<span id="subMemberNum"></span>)</h4>
+          </div>
+          <div class="modal-body">
+            <ul id="user-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Invitation Link Dialog -->
+    <div class="modal fade" id="inivateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel4">invite people</h4>
+          </div>
+          <div class="modal-body">
+            <form class="layui-form" action="">
+              <div class="layui-form-item">
+                <label class="layui-form-label">Invitation link</label>
+                <div class="layui-input-block">
+                  <input style="border: none; padding-left: 0;" id="showInviteLink" type="text" class="layui-input" />
+                </div>
+              </div>
+              <div class="layui-form-item">
+                <label class="layui-form-label">Access environment</label>
+                <div class="layui-input-block" id="showRoomEnv"></div>
+              </div>
+            </form>
+            <div style="margin-bottom: 30px; text-align: center">
+              <button id="copyLintBtn" type="button" class="layui-btn layui-btn-sm">
+                Copy the invitation link
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Upload File popover Content -->
+    <div id="uploadPopoverContent" style="display:none">
+      <div class="upload-setting">
+        <div class="upload-box">
+          <div class="static">
+            <input id="uploadStaticFile" onchange="uploadFile(3, event.target.files[0])" type="file"
+              accept=".ppt,.pptx,.doc,.docx,.xls,.xlsx,.pdf,.txt,.jpg,.jpeg,.png, .bmp, .heic"
+              class="static-upload-input" />
+            <p>
+              <span>Upload static files</span>
+              <span style="width: 16px; height: 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .cls-1 {
+                        fill: #fff;
+                        opacity: 0;
+                      }
+
+                      .cls-2,
+                      .cls-3 {
+                        fill: none;
+                        stroke: #999;
+                        stroke-miterlimit: 10;
+                        stroke-width: 1.2px;
+                      }
+
+                      .cls-3 {
+                        stroke-linecap: round;
+                      }
+                    </style>
+                  </defs>
+                  <title>static_file</title>
+                  <g id="Layer_2" data-name="Layer 2">
+                    <g id="Layer_1-2" data-name="Layer 1">
+                      <rect class="cls-1" width="16" height="16" transform="translate(16) rotate(90)"></rect>
+                      <path class="cls-2"
+                        d="M10.12,2.29A1,1,0,0,0,9.42,2H3.11a.6.6,0,0,0-.61.6V13.4a.6.6,0,0,0,.6.6h9.79a.6.6,0,0,0,.61-.6V6a1,1,0,0,0-.3-.71Z">
+                      </path>
+                      <path class="cls-2" d="M9.42,2V5a1,1,0,0,0,1,1H13.5"></path>
+                      <line class="cls-3" x1="5.36" y1="8.76" x2="9.86" y2="8.76"></line>
+                      <line class="cls-3" x1="5.36" y1="6.39" x2="7.06" y2="6.39"></line>
+                      <line class="cls-3" x1="5.36" y1="11.14" x2="9.86" y2="11.14"></line>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+            </p>
+            Support PPT(X), DOC(X), XLS(X), PDF, TXT, JPG, JPEG, PNG, BMP, HEIC formats
+          </div>
+          <div class="divider"></div>
+          <div class="dymic">
+            <input onchange="uploadFile(6, event.target.files[0])" id="uploadDymicFile" type="file" accept=".pptx, .ppt"
+              class="dymic-upload-input" />
+            <p>
+              <span>Upload dynamic files</span>
+              <span style="width: 16px; height: 16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                  <defs>
+                    <style>
+                      .cls-1 {
+                        fill: #fff;
+                        opacity: 0;
+                      }
+
+                      .cls-2 {
+                        fill: none;
+                        stroke: #999;
+                        stroke-linecap: round;
+                        stroke-linejoin: round;
+                        stroke-width: 1.2px;
+                      }
+                    </style>
+                  </defs>
+                  <title>dynamic_file</title>
+                  <g id="Layer_2" data-name="Layer 2">
+                    <g id="Layer_1-2" data-name="Layer 1">
+                      <rect class="cls-1" width="16" height="16" transform="translate(16) rotate(90)"></rect>
+                      <polygon class="cls-2"
+                        points="6.72 0.7 4.85 4.03 1.11 4.78 3.69 7.59 3.25 11.39 6.72 9.8 10.2 11.39 9.76 7.59 12.34 4.78 8.6 4.03 6.72 0.7 6.72 0.7 6.72 0.7">
+                      </polygon>
+                      <line class="cls-2" x1="6.03" y1="13.91" x2="7.42" y2="15.3"></line>
+                      <line class="cls-2" x1="13.51" y1="8.01" x2="14.89" y2="9.4"></line>
+                      <line class="cls-2" x1="12.08" y1="13.91" x2="13.35" y2="15.18"></line>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+            </p>
+            Support PPTX, PPT format
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- Express SDK -->
+<script src="./sdk/ZegoExpressWebRTC-2.16.0.js"></script>
+<!-- SuperBoard SDK -->
+<script src="./sdk/ZegoSuperBoardWeb-2.3.0.js"></script>
+<!-- Whiteboard Service-Related -->
+<script src="./js/room/utils.js"></script>
+<!-- whiteboard -->
+<script src="./js/room/whiteboard.js"></script>
+<!-- setOther -->
+<script src="./js/room/setOther.js"></script>
+<!-- Other Functions -->
+<script src="./js/room/other.js"></script>
+<!-- setToolType -->
+<script src="./js/room/setToolType.js"></script>
+<!-- reloadView -->
+<script src="./js/room/reloadView.js"></script>
+<!-- setOperationMode -->
+<script src="./js/room/setOperationMode.js"></script>
+<!-- flipToPage -->
+<script src="./js/room/flipToPage.js"></script>
+<!-- setScaleFactor -->
+<script src="./js/room/setScaleFactor.js"></script>
+<!-- setBackgroundImage -->
+<script src="./js/room/setBackgroundImage.js"></script>
+<!-- setBackgroundImage -->
+<script src="./js/room/setCustomCursor.js"></script>
+<!-- addImage -->
+<script src="./js/room/addImage.js"></script>
+<!-- uploadFile -->
+<script src="./js/room/uploadFile.js"></script>
+<!-- uploadH5File -->
+<script src="./js/room/uploadH5File.js"></script>
+<!-- cacheFile -->
+<script src="./js/room/cacheFile.js"></script>
+<!-- Login-Related -->
+<script src="./js/login/utils.js"></script>
+<script src="./js/login/login.js"></script>
+<script src="./js/login/init.js"></script>
+
+</html>

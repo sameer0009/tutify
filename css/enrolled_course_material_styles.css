@@ -1,0 +1,135 @@
+body {
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  
+  .navbar {
+    background-color: #dbf1ff;
+    border-bottom: 1px solid #e9ecef;
+    height: 80px; /* Adjust the height as desired */
+    transition: height 0.3s;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .nav-link {
+    color: #333;
+  }
+  
+  .enrolled-course {
+    margin-top: 40px;
+  }
+  
+  .content-card {
+    margin-bottom: 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .card-subtitle {
+    margin-top: 5px;
+    color: #888;
+  }
+  
+  .no-content {
+    text-align: center;
+    color: #888;
+    margin-top: 40px;
+  }
+  
+  .container {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  h2 {
+    margin-top: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+    padding: 20px;
+    animation: slideIn 0.5s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .table td,
+  .table th {
+    padding: 8px;
+  }
+  
+  .btn {
+    border-radius: 0;
+  }
+  
+  .btn-primary {
+    background-color: #2962FF;
+    border-color: #2962FF;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .btn-danger {
+    background-color: #D32F2F;
+    border-color: #D32F2F;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:focus,
+  .btn-primary:active {
+    background-color: #2452D9;
+    border-color: #2452D9;
+    transform: scale(1.05);
+  }
+  
+  .btn-danger:hover,
+  .btn-danger:focus,
+  .btn-danger:active {
+    background-color: #C62828;
+    border-color: #C62828;
+    transform: scale(1.05);
+  }
+  
+  .table thead th {
+    color: #000;
+    font-weight: bold;
+    background-color: #f2f2f2;
+  }
+  
+  .card-body {
+    margin: 10px;
+  }
+  

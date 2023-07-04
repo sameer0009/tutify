@@ -1,0 +1,45 @@
+body {
+        background-color: #ffffff;
+        font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+        background-color: #dbf1ff;
+        border-bottom: 1px solid #e9ecef;
+        height: 80px; /* Adjust the height as desired */
+        transition: height 0.3s;
+    }
+
+    .navbar-brand {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .nav-link {
+        color: #333;
+    }
+
+    .enrolled-course {
+        margin-top: 40px;
+    }
+
+    .content-card {
+        margin-bottom: 30px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .card-subtitle {
+        margin-top: 5px;
+        color: #888;
+    }
+
+    .no-content {
+        text-align: center;
+        color: #888;
+        margin-top: 40px;
+    }

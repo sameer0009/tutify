@@ -1,0 +1,50 @@
+table {
+    border-collapse: collapse;
+    width: 5%;
+  }
+  
+  /* Style the caption */
+  caption {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 1em;
+  }
+  
+  /* Style the table header */
+  th {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    font-weight: normal;
+    padding: 0.5em;
+    text-align: center;
+  }
+  
+  /* Style the table cells */
+  td {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    text-align: center;
+  }
+  
+  /* Style the button within a cell */
+  td button {
+    background-color: yellow;
+    border: none;
+    padding: 0.25em 0.5em;
+  }
+  
+  /* Style the selected day */
+  td.selected {
+    background-color: #ddf;
+  }
+  
+  /* Style the today cell */
+  td.today {
+    background-color: #fdd;
+  }
+  
+  /* Style the weekend cells */
+  td.weekend {
+    background-color: #eee;
+  }
+  

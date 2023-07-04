@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <style>
+        #root {
+            width: 90vw;
+            height: 90vh;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="root"></div>
+</body>
+<!--add whiteboard plugins before UIKits SDK -->
+<script src="https://unpkg.com/zego-superboard-web@2.8.1/index.js"></script>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script>
+    // Generate a Token by calling a method.
+    // @param 1: appID
+    // @param 2: serverSecret
+    // @param 3: Room ID
+    // @param 4: User ID
+    // @param 5: Username
+    const roomID = 'room01';
+    const userID = Math.floor(Math.random() * 10000) + "";
+    const userName = "userName" + userID;
+    const appID = 1863323429;
+    const serverSecret = "2276975a83c82c6cc6c78a56724a2197";
+    const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+
+
+   const zp = ZegoUIKitPrebuilt.create(TOKEN);
+     zp.addPlugins({ZegoSuperBoardManager});
+    zp.joinRoom({
+        whiteboardConfig: {            
+        showAddImageButton: true, 
+     },
+        container: document.querySelector("#root"),
+        sharedLinks: [{
+            name: 'Join as guest',
+            url: window.location.origin + window.location.pathname + '?roomID=' + roomID,
+        }],
+        scenario: {
+            mode: ZegoUIKitPrebuilt.GroupCall, //  To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+        },
+
+    });
+</script>
+
+</html>
