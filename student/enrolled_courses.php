@@ -48,12 +48,27 @@ $course = mysqli_num_rows($query_run);
   <link rel="stylesheet" href="../css/enroled_course_style.css">
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+
+
+    
+    .container {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-top: 10px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+  </style>
 </head>
 
-<body class=" bg-white">
+<body class=" bg-gray-100">
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg text font-semibold ">
-    <a class="navbar-brand" href="#"><?php echo $_SESSION['user_name']; ?></a>
+    <a href="#" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Tutify</h1>
+            </a>
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -72,14 +87,22 @@ $course = mysqli_num_rows($query_run);
           <a class="nav-link" href="./enrolled_courses.php">Enrolled Courses</a>
         </li>
         <li class="nav-item mx-2">
-          <a class="nav-link" href="#tutor-list">Tutor List</a>
-        </li>
-        <li class="nav-item mx-2">
           <a class="nav-link" href="./feedback.php">FeedBack</a>
         </li>
       </ul>
+       <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php echo ucwords($_SESSION["user_name"]); ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="./update_password.php" title="Password">Password</a>
+                    <a class="dropdown-item" href="../logout.php" title="Logout">Log out</a>
+                </div>
+            </li>
+        </ul>
     </div>
-    <a href="../logout.php" title="Logout" class="btn btn-danger py-2 px-2 d-none d-lg-block">Log out</a>
+    
   </nav>
 
   <div class="container mx-auto ">

@@ -1,7 +1,8 @@
 <head>
-    
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
     <link href="../css/calender_styles.css" rel="stylesheet">
+
+    
 </head>
 
 <?php
@@ -18,10 +19,16 @@ $schedule = array();
 // Loop through the results and add them to the schedule array
 while ($row = mysqli_fetch_assoc($result)) {
     $date = date('Y-m-d', strtotime($row['class_date']));
+    $courseId = $row['Course_id'];
+
     if (!isset($schedule[$date])) {
-        $schedule[$date] = 1;
+        $schedule[$date] = array();
+    }
+
+    if (!isset($schedule[$date][$courseId])) {
+        $schedule[$date][$courseId] = 1;
     } else {
-        $schedule[$date]++;
+        $schedule[$date][$courseId]++;
     }
 }
 
@@ -50,11 +57,7 @@ $monthName = date('F', mktime(0, 0, 0, $month, 1, $year));
 $firstDay = date('N', mktime(0, 0, 0, $month, 1, $year));
 
 // Determine the number of blank cells to insert before the first day
-if ($firstDay == 7) {
-    $blankCells = 0;
-} else {
-    $blankCells = $firstDay;
-}
+$blankCells = ($firstDay + 6) % 7;
 
 // Start the HTML output
 echo "<table class='border-collapse w-5'>";
@@ -84,11 +87,13 @@ while ($dayCount <= $numDays) {
         } else {
             // Check if the current day is in the class schedule
             $date = date('Y-m-d', mktime(0, 0, 0, $month, $dayCount, $year));
-            $classCount = isset($schedule[$date]) ? $schedule[$date] : 0;
+            $classCount = isset($schedule[$date]) ? count($schedule[$date]) : 0;
             // Output the day cell with the class count
             echo "<td class='border text-center'>";
             if ($classCount > 0) {
-                echo "<button class='bg-yellow-500 border-none py-1 px-2'>";
+                $courseHash = md5(implode('-', array_keys($schedule[$date])));
+                $color = substr($courseHash, 0, 6);
+                echo "<button class='border-none py-1 px-2' style='background-color: #$color;'>";
             }
             echo "<span class='font-bold'>$dayCount</span>";
             if ($classCount > 0) {

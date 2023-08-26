@@ -1,6 +1,5 @@
 <?php
 session_start();
-//print_r($_SESSION['id']);
 
 // Check if the withdrawal form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -8,14 +7,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $tutor_id = $_SESSION['id'];
   $withdraw_amount = $_POST['withdraw_amount'];
 
-  // Update the withdraw_check value to 1 for the selected salaries
-  $query = "UPDATE salary SET withdraw_check = 1 WHERE tutor_id = $tutor_id && withdraw_check = 0 LIMIT $withdraw_amount";
-  $result = $con->query($query);
-
-  if ($result) {
-    echo '<script>alert("Withdrawal successful!");</script>';
+  if ($withdraw_amount == 0) {
+    echo '<script>alert("Withdrawal amount cannot be zero.");</script>';
   } else {
-    echo '<script>alert("Withdrawal failed.");</script>';
+    // Update the withdraw_check value to 1 for the selected salaries
+    $query = "UPDATE salary SET withdraw_check = 1 WHERE tutor_id = $tutor_id && withdraw_check = 0 LIMIT $withdraw_amount";
+    $result = $con->query($query);
+
+    if ($result) {
+      echo '<script>alert("Withdrawal successful!");</script>';
+    } else {
+      echo '<script>alert("Withdrawal failed.");</script>';
+    }
   }
 
   // Close the database connection
@@ -30,53 +33,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Professional Tutor Salary Management</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+ 
   <style>
-  
+ body {
+  font-family: 'Roboto', sans-serif;
+}
 
-    .brand-logo {
-      font-size: 24px;
-      font-weight: 500;
-    }
+.brand-logo {
+  font-size: 24px;
+  font-weight: 500;
+}
 
-    .container {
-      margin-top: 80px;
-      padding: 20px;
-    }
+.container {
+  margin-top: 80px;
+  max-width: 1100px;
+  padding: auto;
+}
 
-    .card-panel {
-      padding: 20px;
-    }
+.card-panel {
+  padding: auto;
+}
 
-    h3 {
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
+h3 {
+  margin-bottom: 20px;
+  font-weight: 500;
+}
 
-    table {
-      margin-bottom: 20px;
-    }
+table {
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  width: 100%;
+}
 
-    .total-amount {
-      margin-top: 40px;
-      font-size: 18px;
-      font-weight: 500;
-    }
+th,
+td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
 
-    .withdrawal-pane {
-      margin-top: 40px;
-    }
+th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
 
-    .withdraw-amount {
-      margin-bottom: 20px;
-    }
+.total-amount {
+  margin-top: 40px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.withdrawal-pane {
+  margin-top: 40px;
+}
+
+.withdraw-amount {
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #4cafee;
+  border: none;
+  color: blue;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #4cafee;
+}
+
+
   </style>
 </head>
 <body>
   <?php include('./t_head.php'); ?>
   <?php include('./t_header.php'); ?>
   <div class="container">
-    <div class="card">
+    
       <h3 class="black-text">Tutor Salary Details</h3>
       <table class="striped responsive-table">
         <thead>
@@ -126,19 +165,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h4 class="black-text">Withdrawal Pane</h4>
             <div class="row">
               <div class="input-field col s12">
-                <input id="withdraw-amount" name="withdraw_amount" type="number" class="validate withdraw-amount" value="<?php echo $totalAmount?>" readonly>
+                <input id="withdraw-amount" name="withdraw_amount" type="number" class="validate withdraw-amount" value="<?php echo $totalAmount ?>" readonly>
                 <label for="withdraw-amount">Withdraw Amount</label>
               </div>
             </div>
-            <button class="btn waves-effect waves-light" type="submit" name="action">Withdraw</button>
+            <button class="btn-primary" type="submit" name="action">Withdraw</button>
           </form>
         </div>
       </div>
-    </div>
+   
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
-
 </body>
 </html>

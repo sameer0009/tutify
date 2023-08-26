@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_name'])) {
+  header('Location: ../join.php'); // redirect to the login page if the student is not logged in
+exit();
+}
 include('../dbcon.php');
 
 if (isset($_POST['submit'])) {
@@ -21,8 +26,8 @@ if (isset($_POST['submit'])) {
       font-family: Arial, sans-serif;
     }
 
-    .container {
-      max-width: 500px;
+    .mcontainer {
+      max-width: 700px;
       margin: 0 auto;
       padding: 20px;
       border-radius: 5px;
@@ -75,7 +80,9 @@ if (isset($_POST['submit'])) {
   </style>
 </head>
 <body>
-  <div class="container mt-4">
+  <?php  include ('./a_header.php')?>
+<br>
+  <div class="mcontainer mt-4">
     <h1>Payment Management</h1>
 
     <?php if (isset($message)) { ?>

@@ -14,10 +14,11 @@ if (!isset($_SESSION['user_name'])) {
 include ('./a_header.php'); 
 ?>
      
-<div class="container mt-5">
+<div class="container col-md-11">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
+                <br>
                 <div class="class-header">
                     <h4 style="text-align:center;">Users Management</h4>
                 </div>

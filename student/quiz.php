@@ -37,6 +37,10 @@ $quizStarted = isset($_POST['start_quiz']);
         main {
             flex: 1 0 auto;
         }
+        .brand-logo.center,
+        .navbar-brand {
+          color: black; /* Set the text color to black */
+        }
 
         .center-container {
             display: flex;
@@ -49,7 +53,8 @@ $quizStarted = isset($_POST['start_quiz']);
 <body>
     <header>
         <nav>
-            <div class="nav-wrapper blue">
+            <div class="nav-wrapper blue lighten-5">
+
                 <a href="#" class="brand-logo center">Quiz</a>
                 <a class="navbar-brand" href="#"><?php echo ucwords($_SESSION["user_name"]);?></a>
             </div>

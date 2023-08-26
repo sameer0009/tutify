@@ -55,16 +55,23 @@ $check_course=mysqli_num_rows($query_run);
             <div class="row mx-0 justify-content-center">
                 <div class="col-lg-8">
                     <div class="section-title text-center position-relative mb-5">
+
                         <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Our Courses</h6>
+                        <h3>Click on this to show the details of all courses</h3>
                     </div>
                 </div>
             </div>
+
             <div class="row">
+
             <?php
+
             if ($check_course>0) {
+
                 while ($row=mysqli_fetch_array($query_run)) {
 
                     ?>
+
                      <div class="col-lg-4 col-md-6 pb-4">
                     <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="detail.php">
                         <img class="img-fluid" src="uploads/<?php echo $row['course_image'] ?>" alt="">

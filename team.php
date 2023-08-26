@@ -10,7 +10,7 @@ $sql = "SELECT * FROM users WHERE user_type='Teacher'";
 
 // Add search condition if the search value is provided
 if (!empty($search)) {
-    $sql .= " AND fname LIKE '%$search%'";
+    $sql .= " AND Subject LIKE '%$search%'";
 }
 
 // Add filter condition if the filter value is provided
@@ -19,6 +19,8 @@ if (!empty($filter)) {
         $sql .= " ORDER BY experience ASC";
     } elseif ($filter === 'hourly_rate') {
         $sql .= " ORDER BY hourly_rate ASC";
+    }elseif ($filter === 'Subject') {
+        $sql .= " ORDER BY Subject ASC";
     }
 }
 
@@ -112,27 +114,28 @@ $sql_run = mysqli_query($con, $sql);
 
             <!-- Search Form -->
             <form class="search-form" method="get" action="">
-                <input type="text" name="search" placeholder="Search by name" value="<?php echo $search; ?>">
+                <input type="text" name="search" placeholder="Search by Subject" value="<?php echo $search; ?>">
                 <select name="filter">
                     <option value="">Sort by</option>
                     <option value="experience" <?php echo $filter === 'experience' ? 'selected' : ''; ?>>Experience</option>
                     <option value="hourly_rate" <?php echo $filter === 'hourly_rate' ? 'selected' : ''; ?>>Hourly Rate</option>
+                    <option value="subject" <?php echo $filter === 'subject' ? 'selected' : ''; ?>>Subject</option>
                 </select>
                 <button type="submit">Search</button>
             </form>
 
-            <div class="owl-carousel team-carousel position-relative" style="padding: 0 30px;">
+            <div class="owl-carousel team-carousel position-relative" style="padding: auto 30px;">
                 <?php
                 if (mysqli_num_rows($sql_run) > 0) {
                     while ($row = mysqli_fetch_assoc($sql_run)) {
                 ?>
                         <div class="team-item">
-                            <img class="img-fluid w-100" src="uploads/<?php echo $row['picture']; ?>" alt="">
+                             <img class="img-fluid w-100" style="max-width: 350px; height: 350px;" src="uploads/<?php echo $row['picture']; ?>" alt="">
                             <div class="bg-light text-center p-4">
-                                <h5 class="mb-3"><?php echo $row['fname']; ?></h5>
-                                <h5 class="mb-3"><?php echo $row['experience']; ?></h5>
-                                <h5 class="mb-3"><?php echo $row['email']; ?></h5>
-                                <h5 class="mb-3">$<?php echo $row['hourly_rate']; ?></h5>
+                                <h5 class="mb-3">Name: <?php echo $row['fname']; ?></h5>
+                                <h5 class="mb-3">Experience: <?php echo $row['experience']; ?></h5>
+                                <h5 class="mb-3">Subject:<?php echo $row['Subject']; ?></h5>
+                                <h5 class="mb-3">Hourly Rate: <?php echo $row['hourly_rate']; ?> PKR</h5>
                                 <p class="mb-2"> </p>
                                 <div class="d-flex justify-content-center">
     <a class="btn btn-primary" href="./book_demo.php?tutor_id=<?php echo $row['id']; ?>&tutor_email=<?php echo $row['email']; ?>">Book Demo</a>

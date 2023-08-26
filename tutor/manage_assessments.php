@@ -139,6 +139,10 @@ if (isset($_POST['submit'])) {
                   <td class="py-2 px-4"><?php echo $type; ?></td>
                   <td class="py-2 px-4"><?php echo $due_date; ?></td>
                   <td class="py-2 px-4">
+                     <form action="edit_assessment.php" method="POST">
+    <input type="hidden" name="assessment_id" value="<?php echo $assesment_id ?>">
+    <button type="submit" name="edit_submit" class="text-blue-500 hover:text-blue-700">Edit</button>
+  </form>
                     <form action="" method="POST">
                       <input type="hidden" name="assesment_id" value="<?php echo $assesment_id?>">
                       <button type="submit" name="submit" class="text-red-500 hover:text-red-700">Delete</button>

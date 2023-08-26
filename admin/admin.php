@@ -13,8 +13,8 @@ exit();
     <link rel="stylesheet" href="../css/a_card_style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-tL9xHxpEaxN0jgY0Y2QsZ6BShGX6d/UK76v1fIRmX9oVJm2wbii62wDZ3oRx/nl7hzjFISj1ojV7A1Ry9uV7iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
   </head>
+  
 <body>
 
 <?php
@@ -88,7 +88,7 @@ $result = $con->query($sql);
 $con->close();
 ?>
 <br>
-<div class="container" >
+<div class="container col-md-11" >
   <div class="content-wrapper">
     <div class="row">
       <div class="col-md-12 grid-margin">
@@ -164,7 +164,7 @@ $con->close();
 
 <br>
 
-<div class="container">
+<div class="container col-md-11">
   <h1>User and Courses Graph</h1>
 <?php
 include ('../dbcon.php');

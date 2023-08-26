@@ -1,10 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_name'])) {
+  header('Location: ../join.php'); // redirect to the login page if the student is not logged in
+exit();
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Transaction History - Admin</title>
+  <title>Transaction History </title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+ 
   <style>
      .header {
       background-color: #f8f9fa;
@@ -69,20 +76,23 @@
       box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
+    .mcontainer {
+      max-width: 1200px;
+      margin:  auto;
+      margin-top: auto;
+      padding: auto;
+      
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      text-align: left;
+      text-align: center;
       background-color: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <?php  include ('./a_header.php')?>
+
+  <br>
+  <div class="mcontainer col-md-11">
     <h1>Transaction History - Admin</h1>
     <table class="highlight">
       <thead>

@@ -38,7 +38,10 @@ function showAlert() {
 
 <body class="bg-gray-100">
 <nav class="navbar navbar-expand-lg text font-semibold ">
-    <a class="navbar-brand" href="#"><?php echo ucwords($_SESSION["user_name"]);?></a>
+  <a href="#" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Tutify</h1>
+            </a>
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -50,6 +53,7 @@ function showAlert() {
       </li>
       </ul>
     </div>
+    <a class="navbar-brand" href="#"><?php echo ucwords($_SESSION["user_name"]);?></a>
     <a class="btn btn-primary" href="./enrolled_courses.php">Back</a>
 </nav>
 

@@ -65,11 +65,19 @@ if (isset($_GET['delete'])) {
   <link href="../css/t_dash_style.css" rel="stylesheet">
   <link href="../css/nav_style.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#"><?php echo ucwords($_SESSION["user_name"]);?></a>
+    <a href="#" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Tutify</h1>
+            </a>
+    
+    
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -91,10 +99,20 @@ if (isset($_GET['delete'])) {
           <a class="nav-link" target="_blank" href="s_notification.php">Notification</a>
         </li>
       </ul>
+       <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php echo ucwords($_SESSION["user_name"]); ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="../change_password.php" title="Password">Password</a>
+                    <a class="dropdown-item" href="./addcourse.php">Back</a>
+                    <a class="dropdown-item" href="../logout.php" title="Logout">Log out</a>
+                </div>
+            </li>
+        </ul>
     </div>
-      </ul>
-    </div>
-    <a class="btn btn-primary" href="./addcourse.php">Back</a>
+      
   </nav>
 
   <div class="container-fluid">

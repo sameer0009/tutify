@@ -62,7 +62,7 @@ if (isset($_GET['delete'])) {
 }
 ?>
 
-<div class="container">
+<div class="container col-md-11">
   <h2>Notifications</h2>  
   <div class="card-body">
     <form method="post">

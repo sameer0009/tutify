@@ -66,7 +66,7 @@ if(isset($_POST['submit'])){
   <!-- End of Navigation Bar -->
 
   <!-- Form -->
-  <div class="container">
+  <div class="container col-md-11">
     <h2 >Add New Course</h2>
     <form action="addcourse.php" method="POST" enctype="multipart/form-data">
       <div class="form-group">
@@ -92,17 +92,17 @@ if(isset($_POST['submit'])){
 
       <div class="form-group">
         <label for="courseprice">Enter Course Price</label>
-        <input type="text" class="form-control" id="courseprice" placeholder="Enter Course Price" name="courseprice">
+        <input type="text" class="form-control" id="courseprice" placeholder="Enter Course Price" name="courseprice" required>
       </div>
 
       <div class="form-group">
         <label for="courseduration">Enter Course Duration</label>
-        <input type="text" class="form-control" id="courseduration" placeholder="Enter Course Duration" name="courseduration">
+        <input type="text" class="form-control" id="courseduration" placeholder="Enter Course Duration" name="courseduration" required>
       </div>
 
       <div class="form-group">
         <label for="coursedescription">Course Description</label>
-        <textarea class="form-control" id="coursedescription" rows="5" name="coursedescription"></textarea>
+        <textarea class="form-control" id="coursedescription" rows="5" name="coursedescription" required ></textarea>
       </div>
 
       <button class="btn btn-primary" type="submit" name="submit" value="submit">Submit</button>
@@ -110,7 +110,7 @@ if(isset($_POST['submit'])){
   </div>
 
   <!-- Course Cards -->
-  <div class="container">
+  <div class="container col-md-11">
   <h2>Courses List</h2>
   <div class="row">
     <?php 
@@ -122,8 +122,8 @@ if(isset($_POST['submit'])){
     if ($course > 0) {
       while ($row = mysqli_fetch_array($query_run)) {
     ?>
-        <div class="col-md-6">
-          <div class="card" style="background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 20px; position: relative;">
+        <div class="col-md-4">
+          <div class="card" style="background-color: #a3c9f0; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 40px; position: relative;">
             <div class="card-body">
               <h4 class="card-title" style="color: #333; font-size: 20px; font-weight: bold; margin-bottom: 10px;"><?php echo $row['course_name']; ?></h4>
               <p class="card-title" style="font-size: 16px; margin-bottom: 5px;"><b>ID:</b> <?php echo $row['course_id']; ?></p>
@@ -133,7 +133,8 @@ if(isset($_POST['submit'])){
               <div class="btn-group" role="group" aria-label="Actions" style="position: absolute; bottom: 0; left: 3; margin-bottom: 15px;">
                 <a href="course_content.php?course_id=<?php echo $row['course_id']; ?>" class="btn btn-primary" style="font-size: 14px;">Details</a>
               </div>
-              <div class="btn-group" role="group" aria-label="Actions" style="position: absolute; bottom: 0; right: 0; margin-bottom: 15px;">
+              <br><br>
+              <div class="btn-group" role="group" aria-label="Actions" style="position: absolute; bottom: 0; right: 5px; margin-bottom: 15px;">
                 <form action="delete_course.php" method="post">
                   <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
                   <button type="submit" class="btn btn-danger" style="font-size: 14px;">Delete</button>

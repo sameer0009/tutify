@@ -50,7 +50,7 @@
 
     <!-- Detail Start -->
     <?php 
-include ('../fyp-main/dbcon.php');
+include ('dbcon.php');
 $query = "SELECT course_image, course_id, course_name, course_description, course_duration, course_price, course_intsructor FROM course";
 $query_run = mysqli_query($con, $query);
 $course = mysqli_num_rows($query_run);
@@ -62,7 +62,7 @@ while ($row = mysqli_fetch_array($query_run)) {
 
     <!-- Detail Start -->
     <?php 
-    include ('../fyp-main/dbcon.php');
+    include ('dbcon.php');
     $query = "SELECT course_image, course_id, course_name, course_description, course_duration, course_price, course_intsructor FROM course";
     $query_run = mysqli_query($con, $query);
     $course = mysqli_num_rows($query_run);
@@ -115,7 +115,7 @@ while ($row = mysqli_fetch_array($query_run)) {
                             </div>
                             <h5 class="text-white py-3 px-4 m-0">Course Price: <?php echo $row['course_price']; ?> PKR</h5>
                             <div class="py-3 px-4">
-                            <form action="<?php echo isset($_SESSION['user_name']) ? 'payment.php' : '../fyp-main/signin.php'; ?>" method="post">
+                            <form action="<?php echo isset($_SESSION['user_name']) ? 'payment.php' : './signin.php'; ?>" method="post">
                             <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
                             <button type="submit" class="btn btn-block btn-secondary py-3 px-5" name="enroll_now">
                                 <?php echo isset($_SESSION['user_name']) ? 'Enroll Now' : 'Sign In to Enroll'; ?>
@@ -125,6 +125,8 @@ while ($row = mysqli_fetch_array($query_run)) {
                             </div>
                         </div>
                     </div>
+                    </div>
+                     </div>
                     </div>
         <?php
         }

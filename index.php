@@ -146,26 +146,51 @@ if (isset($_POST['submit'])) {
                     </div>
                     <p>Welcome to our online learning platform, where you can expand your knowledge and skills in a variety of subjects. Our website offers a range of courses taught by experienced instructors, covering topics from basics to advance and everything in between. With flexible scheduling, interactive lessons, and a supportive community, you can learn at your own pace and on your own terms.You'll find what you're looking for here. Start exploring today!</p>
                     <div class="row pt-3 mx-0">
-                        <div class="col-3 px-0">
-                            <div class="bg-success text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">13</h1>
-                                <h6 class="text-uppercase text-white">Available<span class="d-block">Subjects</span></h6>
-                            </div>
-                        </div>
-                        <div class="col-3 px-0">
-                            <div class="bg-primary text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">14</h1>
-                                <h6 class="text-uppercase text-white">Online<span class="d-block">Courses</span></h6>
-                            </div>
-                        </div>
-                        <div class="col-3 px-0">
-                            <div class="bg-secondary text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">15</h1>
-                                <h6 class="text-uppercase text-white">Skilled<span class="d-block">Instructors</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <?php
+include 'dbcon.php';
+
+// Retrieve the count of online courses
+$onlineCoursesQuery = "SELECT COUNT(*) AS online_courses_count
+                       FROM course";
+$resultOnlineCourses = mysqli_query($con, $onlineCoursesQuery);
+if ($resultOnlineCourses) {
+    $rowOnlineCourses = mysqli_fetch_assoc($resultOnlineCourses);
+    $onlineCoursesCount = $rowOnlineCourses['online_courses_count'];
+} else {
+    echo "Error executing online courses query: " . mysqli_error($con);
+}
+
+// Retrieve the count of skilled instructors
+$skilledInstructorsQuery = "SELECT COUNT(DISTINCT id) AS skilled_instructors_count
+                            FROM users
+                            WHERE user_type = 'Teacher'";
+$resultSkilledInstructors = mysqli_query($con, $skilledInstructorsQuery);
+if ($resultSkilledInstructors) {
+    $rowSkilledInstructors = mysqli_fetch_assoc($resultSkilledInstructors);
+    $skilledInstructorsCount = $rowSkilledInstructors['skilled_instructors_count'];
+} else {
+    echo "Error executing skilled instructors query: " . mysqli_error($con);
+}
+
+// Close the database connection
+mysqli_close($con);
+?>
+
+
+    <div class="col-3 px-0">
+        <div class="bg-primary text-center p-4">
+            <h1 class="text-white" data-toggle="counter-up"><?php echo $onlineCoursesCount; ?></h1>
+            <h6 class="text-uppercase text-white">Online<span class="d-block">Courses</span></h6>
+        </div>
+    </div>
+    <div class="col-3 px-0">
+        <div class="bg-secondary text-center p-4">
+            <h1 class="text-white" data-toggle="counter-up"><?php echo $skilledInstructorsCount; ?></h1>
+            <h6 class="text-uppercase text-white">Skilled<span class="d-block">Instructors</span></h6>
+        </div>
+    </div>
+</div>
+
             </div>
         </div>
     </div>
@@ -221,96 +246,90 @@ if (isset($_POST['submit'])) {
     <!-- Feature Start -->
 
 
-    <!-- Courses Start -->
-    <div class="container-fluid px-0 py-5">
-        <div class="row mx-0 justify-content-center pt-5">
-            <div class="col-lg-6">
-                <div class="section-title text-center position-relative mb-4">
-                    <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Our Courses</h6>
-                    <h1 class="display-4">Checkout New Releases Of Our Courses</h1>
-                </div>
+   <!-- Courses Start -->
+<div class="container-fluid px-0 py-5">
+    <div class="row mx-0 justify-content-center pt-5">
+        <div class="col-lg-6">
+            <div class="section-title text-center position-relative mb-4">
+                <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Our Courses</h6>
+                <h1 class="display-4">Checkout New Releases Of Our Courses</h1>
             </div>
         </div>
-        <div class="owl-carousel courses-carousel">
-            <div class="courses-item position-relative">
-                <img class="img-fluid" src="img/courses-1.jpg" alt="">
-                <div class="courses-text">
-                    <h4 class="text-center text-white px-3">Maths</h4>
-                </div>
-            </div>
-            <div class="courses-item position-relative">
-                <img class="img-fluid" src="img/courses-2.jpg" alt="">
-                <div class="courses-text">
-                    <h4 class="text-center text-white px-3">Biology</h4>
-                </div>
-            </div>
-            <div class="courses-item position-relative">
-                <img class="img-fluid" src="img/courses-33.jpg" alt="">
-                <div class="courses-text">
-                    <h4 class="text-center text-white px-3">Chemistry</h4>
-                </div>
-            </div>
-            <div class="courses-item position-relative">
-                <img class="img-fluid" src="img/courses-44.jpg" alt="">
-                <div class="courses-text">
-                    <h4 class="text-center text-white px-3">English</h4>
-                </div>
-            </div>
-           
-           
-        </div>
-        
-        
     </div>
-    <!-- Courses End -->
+    <div class="owl-carousel courses-carousel">
+        <?php
+
+        include 'dbcon.php';
+        // Retrieve courses from the database
+        $coursesQuery = "SELECT * FROM course";
+        $resultCourses = mysqli_query($con, $coursesQuery);
+
+        while ($rowCourse = mysqli_fetch_assoc($resultCourses)) {
+            $courseName = $rowCourse['course_name'];
+            $courseImage = "./uploads/" . $rowCourse['course_image'];
+        ?>
+            <div class="courses-item position-relative">
+                <img class="img-fluid" src="<?php echo $courseImage; ?>" alt="" style="width: 350px; height: 350px;">
+                <div class="courses-text">
+                    <h4 class="text-center text-white px-3"><?php echo $courseName; ?></h4>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
+    </div>
+</div>
+<!-- Courses End -->
 
 
-    <!-- Team Start -->
-    <?php
+
+
+<?php
 require('./dbcon.php');
 
 $sql = "SELECT * FROM users  WHERE user_type='Teacher'";
+
 $sql_run = mysqli_query($con, $sql);
 
 
 ?>  
-    <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="section-title text-center position-relative mb-5">
-                <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Instructors</h6>
-                <h1 class="display-4">Meet Our Instructors</h1>
-            </div>
-            <div class="owl-carousel team-carousel position-relative" style="padding: 0 30px;">
+
+
+<div class="container-fluid py-5">
+    <div class="container py-6">
+        <div class="section-title text-center position-relative mb-5">
+            <h5 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Instructors</h5>
+            <h1 class="display-4">Meet Our Instructors</h1>
+        </div>
+        <div class="owl-carousel team-carousel position-relative" style="padding: auto 40px;">
             <?php
-            if (mysqli_num_rows($sql_run)>0) {
-                while ($row=mysqli_fetch_assoc($sql_run)) {
-                    ?>
-                  
-                <div class="team-item">
-                    <img class="img-fluid w-100" src="uploads/<?php echo $row['picture'];?>" alt="">
-                    <div class="bg-light text-center p-4">
-                        <h5 class="mb-3"><?php echo $row['fname'];?></h5>
-                        <h5 class="mb-3"><?php echo $row['experience'];?></h5>
-                        <h5 class="mb-3"><?php echo $row['email'];?></h5>
-                        <h5 class="mb-3">$<?php echo $row['hourly_rate'];?></h5>
-
-
-                        <p class="mb-2">    </p>
-                        <div class="d-flex justify-content-center">
+            if (mysqli_num_rows($sql_run) > 0) {
+                while ($row = mysqli_fetch_assoc($sql_run)) {
+            ?>
+                    <div class="team-item">
+                        <!-- Apply inline CSS for fixed image size -->
+                        <img class="img-fluid w-100" style="max-width: 350px; height: 350px;" src="uploads/<?php echo $row['picture']; ?>" alt="">
+                        <div class="bg-light text-center p-4">
+                            <h5 class="mb-3">Name: <?php echo $row['fname']; ?></h5>
+                                <h5 class="mb-3">Experience: <?php echo $row['experience']; ?></h5>
+                                <h5 class="mb-3">Subject:<?php echo $row['Subject']; ?></h5>
+                                <h5 class="mb-3">Hourly Rate: <?php echo $row['hourly_rate']; ?> PKR</h5>
+                               
+                            <p class="mb-2"> </p>
+                            <div class="d-flex justify-content-center">
+                                <!-- Additional content goes here if needed -->
+                            </div>
                         </div>
                     </div>
-                </div>
-    
-            
             <?php
-                }  
+                }
             }
             ?>
-             </div>  
-           
-        </div>
+        </div> 
     </div>
-    <!-- Team End -->
+</div>
+
+<!-- Team End -->
 
 
     <!-- Testimonial Start -->

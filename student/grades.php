@@ -43,9 +43,14 @@ if (!isset($_SESSION['user_name'])) {
     }
     
     h1 {
-      text-align: center;
-      margin-top: 0;
-    }
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold; /* Make the heading bold */
+  font-size: 24px; /* Increase the text size */
+  border-bottom: 5px solid black; /* Add a 5px border at the bottom */
+  padding-bottom: 10px; /* Add some padding at the bottom */
+}
+
     
     table {
       width: 100%;
@@ -97,15 +102,15 @@ if (!isset($_SESSION['user_name'])) {
 
 <body>
   <div class="container">
-    <h1>Grades Page</h1>
+    <h1>Assesment Results</h1>
 
     <table>
       <thead>
-        <tr>
-          <th>Course ID</th>
+       <th>Course ID</th>
           <th>Assessment ID</th>
-          <th>Grade</th>
-        </tr>
+          <th>Quiz Marks</th>
+          <th>Assignment Marks</th>
+
       </thead>
       <tbody>
         <?php
@@ -125,9 +130,19 @@ if (!isset($_SESSION['user_name'])) {
             $assessment_id = $row["assesment_id"];
             $grade = $row["grade"];
 
-            echo "<tr>";
+        // Fetch quiz result based on course and assessment
+            $sql_quiz_result = "SELECT score FROM quiz_results WHERE user_id = $user_id AND course_id = '$course_id' ";
+            $result_quiz_result = $con->query($sql_quiz_result);
+            $quiz_result = "";
+            if ($result_quiz_result !== false && $result_quiz_result->num_rows > 0) {
+              $quiz_result = $result_quiz_result->fetch_assoc()["score"];
+            }
+
+
+          echo "<tr>";
             echo "<td>$course_id</td>";
             echo "<td>$assessment_id</td>";
+            echo "<td>$quiz_result</td>";
             echo "<td class='grade-label'>$grade</td>";
             echo "</tr>";
           }

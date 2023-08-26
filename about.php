@@ -59,26 +59,51 @@
                     </div>
                     <p>Welcome to our online learning platform, where you can expand your knowledge and skills in a variety of subjects. Our website offers a range of courses taught by experienced instructors, covering topics from basics to advance and everything in between. With flexible scheduling, interactive lessons, and a supportive community, you can learn at your own pace and on your own terms.You'll find what you're looking for here. Start exploring today!</p>
                     <div class="row pt-3 mx-0">
-                        <div class="col-3 px-0">
-                            <div class="bg-success text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">13</h1>
-                                <h6 class="text-uppercase text-white">Available<span class="d-block">Subjects</span></h6>
-                            </div>
-                        </div>
-                        <div class="col-3 px-0">
-                            <div class="bg-primary text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">14</h1>
-                                <h6 class="text-uppercase text-white">Online<span class="d-block">Courses</span></h6>
-                            </div>
-                        </div>
-                        <div class="col-3 px-0">
-                            <div class="bg-secondary text-center p-4">
-                                <h1 class="text-white" data-toggle="counter-up">15</h1>
-                                <h6 class="text-uppercase text-white">Skilled<span class="d-block">Instructors</span></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <?php
+include 'dbcon.php';
+
+// Retrieve the count of online courses
+$onlineCoursesQuery = "SELECT COUNT(*) AS online_courses_count
+                       FROM course";
+$resultOnlineCourses = mysqli_query($con, $onlineCoursesQuery);
+if ($resultOnlineCourses) {
+    $rowOnlineCourses = mysqli_fetch_assoc($resultOnlineCourses);
+    $onlineCoursesCount = $rowOnlineCourses['online_courses_count'];
+} else {
+    echo "Error executing online courses query: " . mysqli_error($con);
+}
+
+// Retrieve the count of skilled instructors
+$skilledInstructorsQuery = "SELECT COUNT(DISTINCT id) AS skilled_instructors_count
+                            FROM users
+                            WHERE user_type = 'Teacher'";
+$resultSkilledInstructors = mysqli_query($con, $skilledInstructorsQuery);
+if ($resultSkilledInstructors) {
+    $rowSkilledInstructors = mysqli_fetch_assoc($resultSkilledInstructors);
+    $skilledInstructorsCount = $rowSkilledInstructors['skilled_instructors_count'];
+} else {
+    echo "Error executing skilled instructors query: " . mysqli_error($con);
+}
+
+// Close the database connection
+mysqli_close($con);
+?>
+
+
+    <div class="col-3 px-0">
+        <div class="bg-primary text-center p-4">
+            <h1 class="text-white" data-toggle="counter-up"><?php echo $onlineCoursesCount; ?></h1>
+            <h6 class="text-uppercase text-white">Online<span class="d-block">Courses</span></h6>
+        </div>
+    </div>
+    <div class="col-3 px-0">
+        <div class="bg-secondary text-center p-4">
+            <h1 class="text-white" data-toggle="counter-up"><?php echo $skilledInstructorsCount; ?></h1>
+            <h6 class="text-uppercase text-white">Skilled<span class="d-block">Instructors</span></h6>
+        </div>
+    </div>
+</div>
+
             </div>
         </div>
     </div>

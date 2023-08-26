@@ -1,4 +1,4 @@
-<?php
+  <?php
 session_start();
 if (!isset($_SESSION['user_name'])) {
   header('Location: ../join.php'); // redirect to the login page if the student is not logged in
@@ -18,30 +18,25 @@ if (!isset($_SESSION['user_name'])) {
       background-color: #f8f9fa;
       padding: 20px;
     }
-
     .header h1 {
       margin: 0;
       color: #333;
     }
-
     table {
       margin-top: 20px;
       border-collapse: collapse;
       width: 100%;
     }
-
     table th {
       background-color: #f8f9fa;
       color: #333;
       font-weight: bold;
       padding: 10px;
     }
-
     table td {
       color: #333;
       padding: 10px;
     }
-
     form {
       margin-top: 20px;
       max-width: 400px;
@@ -113,7 +108,7 @@ if (!isset($_SESSION['user_name'])) {
 
           if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
+              echo "<tr>";
               echo "<td>".$row['id']."</td>";
               echo "<td>".$row['instructor_id']."</td>";
               echo "<td>".$row['course_instructor']."</td>";
@@ -121,7 +116,7 @@ if (!isset($_SESSION['user_name'])) {
               echo "</tr>";
             }
           } else {
-            echo "<tr><td colspan='3'>No payments found.</td></tr>";
+            echo "<tr><td colspan='4'>No payments found.</td></tr>";
           }
 
           mysqli_close($con);
@@ -139,7 +134,7 @@ if (!isset($_SESSION['user_name'])) {
           <option value="">Select a tutor ID</option>
           <?php
             include('../dbcon.php');
-            $sql = "SELECT instructor_id, tutor_fee FROM payment WHERE salary_check='0'";
+            $sql = "SELECT instructor_id, SUM(tutor_fee) AS total_fee FROM payment WHERE salary_check='0' GROUP BY instructor_id";
             $result = mysqli_query($con, $sql);
             while ($row = mysqli_fetch_assoc($result)) {
               echo "<option value='".$row['instructor_id']."'>".$row['instructor_id']."</option>";
@@ -154,10 +149,10 @@ if (!isset($_SESSION['user_name'])) {
           <option value="">Select a tutor name</option>
           <?php
             include('../dbcon.php');
-            $sql = "SELECT instructor_id, course_instructor, tutor_fee FROM payment WHERE salary_check='0'";
+            $sql = "SELECT instructor_id, course_instructor, SUM(tutor_fee) AS total_fee FROM payment WHERE salary_check='0' GROUP BY instructor_id";
             $result = mysqli_query($con, $sql);
             while ($row = mysqli_fetch_assoc($result)) {
-              echo "<option value='".$row['course_instructor']."' data-amount='".$row['tutor_fee']."'>".$row['course_instructor']."</option>";
+              echo "<option value='".$row['course_instructor']."' data-amount='".$row['total_fee']."'>".$row['course_instructor']."</option>";
             }
             mysqli_close($con);
           ?>

@@ -20,6 +20,13 @@ session_start();
   </style>
 </head>
 <body>
+   <div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+
+
+
   <h1>Sign In</h1>
 
   <?php
@@ -114,7 +121,8 @@ session_start();
       <label for="uname"><b>Email</b></label>
       <input type="text" placeholder="Enter email" name="email" required>
       <label for="psw"><b>Password</b></label>
-      <input type="password" placeholder="Enter Password" name="password" required>
+      <input type="password" id="password" placeholder="Enter Password" name="password" required>
+      <label for="showPassword"><input type="checkbox" id="showPassword" onchange="togglePasswordVisibility()"> Show Password</label>
       <button name="submit" type="submit">Login</button>
       <span class="psw" style="color: #333333;"> <a href="#" onclick="document.getElementById('id01').style.display='block'">Forgot Password</a></span>
       <br>
@@ -142,6 +150,17 @@ session_start();
   </div>
 
   <script>
+
+    function togglePasswordVisibility() {
+      const passwordInput = document.getElementById("password");
+      const showPasswordCheckbox = document.getElementById("showPassword");
+
+      if (showPasswordCheckbox.checked) {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
     // Get the modal
     var modal = document.getElementById('id01');
 
@@ -152,5 +171,6 @@ session_start();
       }
     }
   </script>
+</div>
 </body>
 </html>

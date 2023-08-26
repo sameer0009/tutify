@@ -14,7 +14,7 @@
                     <h3 class="text-white mb-4">Get In Touch</h3>
                     <p><i class="fa fa-map-marker-alt mr-2"></i>Johar Town, Lahore, Pakistan</p>
                     <p><i class="fa fa-phone-alt mr-2"></i>+000000000000</p>
-                    <p><i class="fa fa-envelope mr-2"></i>tutify@gmail.com</p>
+                    <p><i class="fa fa-envelope mr-2"></i>tutify6@gmail.com</p>
                     <div class="d-flex justify-content-start mt-4">
                         <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-linkedin-in"></i></a>
                     </div>

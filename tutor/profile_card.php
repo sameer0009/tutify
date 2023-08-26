@@ -1,66 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="../css/profile_card.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
-</head>
-<body>
+<?php
+session_start();
 
-	<section class="vh-100" style="background-color: #f4f5f7;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-lg-6 mb-4 mb-lg-0">
-        <div class="card mb-3" style="border-radius: .5rem;">
-          <div class="row g-0">
-            <div class="col-md-4 gradient-custom text-center text-white"
-              style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
-                alt="Avatar" class="img-fluid my-5" style="width: 80px;" />
-              <h5>Marie Horwitz</h5>
-              <p>Web Designer</p>
-              <i class="far fa-edit mb-5"></i>
-            </div>
-            <div class="col-md-8">
-              <div class="card-body p-4">
-                <h6>Information</h6>
-                <hr class="mt-0 mb-4">
-                <div class="row pt-1">
-                  <div class="col-6 mb-3">
-                    <h6>Email</h6>
-                    <p class="text-muted">info@example.com</p>
-                  </div>
-                  <div class="col-6 mb-3">
-                    <h6>Phone</h6>
-                    <p class="text-muted">123 456 789</p>
-                  </div>
-                </div>
-                <h6>Projects</h6>
-                <hr class="mt-0 mb-4">
-                <div class="row pt-1">
-                  <div class="col-6 mb-3">
-                    <h6>Recent</h6>
-                    <p class="text-muted">Lorem ipsum</p>
-                  </div>
-                  <div class="col-6 mb-3">
-                    <h6>Most Viewed</h6>
-                    <p class="text-muted">Dolor sit amet</p>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-start">
-                  <a href="#!"><i class="fab fa-facebook-f fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-twitter fa-lg me-3"></i></a>
-                  <a href="#!"><i class="fab fa-instagram fa-lg"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
+if (!isset($_SESSION['user_name'])) {
+  header('Location: ../signin.php'); // Redirect to the login page if the user is not logged in
+  exit();
+}
+
+include('../dbcon.php');
+
+$fname = $_SESSION['user_name'];
+
+$sql = "SELECT * FROM users WHERE user_type = 'Teacher' AND fname = '$fname'";
+$sql_run = mysqli_query($con, $sql);
+
+if ($sql_run) { // Check if the query execution was successful
+  $num_rows = mysqli_num_rows($sql_run);
+
+  if ($num_rows > 0) {
+    $row = mysqli_fetch_assoc($sql_run);
+    $fname = $row['fname'];
+    $picture = base64_encode($row['picture']);
+    ?>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+
+    <head>
+      <meta charset="UTF-8">
+      <title>Profile Card</title>
+      <link href="../css/Profile_card.css" rel="stylesheet">
+
+      <!-- Font awesome CDN link -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    </head>
+
+    <body>
+      <div class="image-area">
+        <div class="img-wrapper">
+          <img class="card-img-top" src="../uploads/<?php echo $row['picture']; ?>" alt="Profile Picture ">
+          <h2><?php echo $fname; ?></h2>
+          <ul>
+            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+          </ul>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </body>
 
-</body>
-</html>
+    </html>
+
+    <?php
+  } else {
+    echo "No data found for the signed-in user.";
+  }
+} else {
+  echo "Error executing the SQL query: " . mysqli_error($con);
+}
+?>

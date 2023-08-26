@@ -24,11 +24,11 @@
     // @param 3: Room ID
     // @param 4: User ID
     // @param 5: Username
-    const roomID = 'room01';
+    const roomID =  Math.floor(Math.random() * 10000) + "";
     const userID = Math.floor(Math.random() * 10000) + "";
     const userName = "userName" + userID;
-    const appID = 1863323429;
-    const serverSecret = "2276975a83c82c6cc6c78a56724a2197";
+    const appID = 1272581371;
+    const serverSecret = "7f06b00a5245deddade2f66155cfa117";
     const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
 

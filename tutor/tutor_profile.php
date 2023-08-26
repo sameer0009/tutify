@@ -29,6 +29,7 @@ $area=mysqli_real_escape_string($con,$_POST['area']);
 $postal_code=mysqli_real_escape_string($con,$_POST['postcode']);
 $coutry=mysqli_real_escape_string($con,$_POST['country']);
 $state=mysqli_real_escape_string($con,$_POST['state']);
+$Subject=mysqli_real_escape_string($con,$_POST['Subject']);
 $ehistory=mysqli_real_escape_string($con,$_POST['detail']);
 $experience=mysqli_real_escape_string($con,$_POST['experience']);
 $hourly_rate = mysqli_real_escape_string($con, $_POST['hourly_rate']); // Added Hourly Rate
@@ -36,7 +37,7 @@ $hourly_rate = mysqli_real_escape_string($con, $_POST['hourly_rate']); // Added 
 
 $id=mysqli_real_escape_string($con,$_POST['id']);
 
-$query="UPDATE `users` SET `address`='$address', `postal_code`='$postal_code', `area`='$area', `country`='$coutry', `state`='$state', `picture`='$picture', `ehistory`='$ehistory', `experience`='$experience', `degree`='$degree',`hourly_rate`='$hourly_rate' WHERE id='{$_SESSION['id']}'";
+$query="UPDATE `users` SET `address`='$address', `postal_code`='$postal_code', `area`='$area', `country`='$coutry', `state`='$state', `picture`='$picture', `ehistory`='$ehistory', `experience`='$experience',`Subject`='$Subject', `degree`='$degree',`hourly_rate`='$hourly_rate' WHERE id='{$_SESSION['id']}'";
 
 if(mysqli_query($con,$query))
 {
@@ -62,7 +63,7 @@ include('./t_head.php');
 
 <!-- Profile Management -->
 <div id="profile-management" class="container">
-  <div class="container">
+ 
     <div class="col-md-12">
       <div class="p-3 py-6">
         <div class="d-flex justify-content-center align-items-center mb-3">
@@ -85,6 +86,7 @@ include('./t_head.php');
             <div class="col-md-12"><label class="labels">Education</label><input type="text" class="form-control" placeholder="Enter education"  name="education"></div>
             <div class="col-md-12"><label class="labels">Experience</label><input type="text" class="form-control" placeholder="Enter experience" name="experience"></div>
             <div class="col-md-12"><label class="labels">Hourly Rate</label><input type="number" class="form-control" placeholder="Enter per hour rate" name="hourly_rate"></div> <!-- Added Hourly Rate field -->
+            <div class="col-md-12"><label class="labels">Subject</label><input type="text" class="form-control" placeholder="Enter Subject of Teaching" name="Subject"></div>
             <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="Enter additional details" name="detail"></div>
           </div>
           <label class="labels">Degree</label>
@@ -104,5 +106,5 @@ include('./t_head.php');
 </form>
 </div>
 </div>
-</div>
+
 </div>

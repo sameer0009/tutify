@@ -48,7 +48,7 @@ mysqli_close($con);
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container col-md-11">
     <h2>Payment Details</h2>
 
     <!-- JavaScript to display popup alert and redirect -->
@@ -57,8 +57,7 @@ mysqli_close($con);
       window.location.href = "<?php echo $redirectURL; ?>";
     </script>
 
-    <!-- Rest of your HTML code -->
-    <!-- ... -->
+   
   </div>
 
   <!-- Include Bootstrap JS -->

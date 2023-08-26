@@ -16,7 +16,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/t_dash_style.css" rel="stylesheet">
     <link href="../css/nav_style.css" rel="stylesheet">
-    
+    <link href="../css/style.css" rel="stylesheet">
 
     <title>Tutor Panel</title>
 </head>

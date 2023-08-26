@@ -6,7 +6,7 @@ include('../dbcon.php');
 if (isset($_POST['submit'])) {
   $title = $_POST['assessment_title'];
   $course_id = $_SESSION['course_id'];
-  $_SESSION['assesment_id']=$_POST['assesment_id'];
+  
   $type = $_POST['assessment_type'];
   $description = $_POST['assessment_description'];
   $date = $_POST['due_date'];
@@ -74,10 +74,49 @@ if (isset($_POST['submit'])) {
   <!-- Customized Bootstrap Stylesheet -->
   <link href="../css/style.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </head>
 
-<body class="bg-gray-100">
-  <div class="container mx-auto mt-5">
+<body >
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  <a href="#" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Tutify</h1>
+            </a>
+    
+   
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+      <li class="nav-item">
+          <a class="nav-link" target="_blank" href="manage_assessments.php">Manage Assesment</a>
+        </li>
+
+      </ul>
+       <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php echo ucwords($_SESSION["user_name"]); ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="../change_password.php" title="Password">Password</a>
+                    <a class="dropdown-item" href="./addcourse.php">Back</a>
+                    <a class="dropdown-item" href="../logout.php" title="Logout">Log out</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+     
+  </nav>
+
+
+  <div class="container col-md-11">
     <h1 class="text-center text-3xl font-bold mb-5">Create Assessments</h1>
     <div class="bg-white rounded shadow-lg p-6">
       <form action="" method="post" enctype="multipart/form-data">
@@ -111,10 +150,7 @@ if (isset($_POST['submit'])) {
         <br>
         <br>
         <div class="flex justify-end mt-4">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    
-            <a href="manage_assessments.php" class="text-white">Manage Assessments</a>
-          </button>
+        
         </div>
       </form>
     </div>

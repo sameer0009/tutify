@@ -48,8 +48,9 @@ if (isset($_POST['delete_subject'])) {
 
 </head>
 <body>
-  <div class="container">
-    <h1>ADD a Subject to Take Test</h1>
+  <div class="container col-md-11">
+    
+    <h1>ADD  A Subject to Take Teacher Selection Assesment</h1>
 
     <!-- Form to add a new subject -->
     <form method="post" action="">
@@ -60,13 +61,13 @@ if (isset($_POST['delete_subject'])) {
       <br>
               <label>Set Passing Criteria</label>
               <input type="text" name="passing_criteria" id="passing_criteria" required>
-      <br>
+      <br> <br>
             <label>Time in mintues </label>
               <input type="number" name="time" id="time" required>
       <br><br>
       <button type="submit" name="add_subject" class="btn btn-primary">Add Subject</button>
     </form>
-    <div continer>
+    <div class continer >
     <!-- Display all subjects as cards -->
     <div class="row">
       <?php foreach ($subjects as $subject): ?>

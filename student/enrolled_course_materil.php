@@ -16,6 +16,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Store the checked content IDs in the session
   $_SESSION['checked_content'][$courseId] = isset($_POST['content_checkbox']) ? $_POST['content_checkbox'] : [];
 }
+$courseContentCountQuery = "SELECT COUNT(*) AS total_content_count FROM course_content WHERE course_id = '" . $courseId . "'";
+$courseContentCountResult = mysqli_query($con, $courseContentCountQuery);
+$courseContentCountRow = mysqli_fetch_assoc($courseContentCountResult);
+$totalContentCount = $courseContentCountRow['total_content_count'];
 ?>
 
 <!DOCTYPE html>
@@ -33,6 +37,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <link rel="stylesheet" href="../css/enrolled_course_material_styles.css">
 <!-- Tailwind CSS -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.17/dist/tailwind.min.css" rel="stylesheet">
+<!-- Include Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+.progress {
+  height: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #007bff;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  transition: width 0.3s;
+}
+</style>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
@@ -51,17 +76,18 @@ $(document).ready(function() {
 </script>
 </head>
 
-<body>
+<body class="bg-gray-100">
 <nav class="navbar navbar-expand-lg font-semibold">
-  <a class="navbar-brand" href="#"><?php echo ucwords($_SESSION["user_name"]); ?></a>
+   <a href="#" class="navbar-brand ml-lg-3">
+                <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Tutify</h1>
+            </a>
+ 
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav  mx-8">
-      <li class="nav-item mx-8">
-        <a class="nav-link"  href="#">Join Class</a>
-      </li>
+      
       <li class="nav-item mx-8">
         <a class="nav-link" target="_blank" href="./assessment.php?course_id=<?php echo $_POST['course_id']; ?>">Course Assessments</a>
       </li>
@@ -69,8 +95,21 @@ $(document).ready(function() {
         <a class="nav-link" target="_blank" href="./grades.php?course_id=<?php echo $_POST['course_id']; ?>">Grades</a>
       </li>
     </ul>
+     <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?php echo ucwords($_SESSION["user_name"]); ?>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="./update_password.php" title="Password">Password</a>
+                    <a class="dropdown-item" href="./enrolled_courses.php">Back</a>
+                    <a class="dropdown-item" href="../logout.php" title="Logout">Log out</a>
+                </div>
+            </li>
+        </ul>
   </div>
-  <a class="btn btn-primary" href="./enrolled_courses.php">Back</a>
+ 
+  
 </nav>
 
 <div class="container mx-auto">

@@ -5,12 +5,17 @@ body {
 }
 
 .container {
+  
   background-color: #fff;
   padding: 20px;
   margin-top: 20px;
+
+  align-items: center;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
   animation: fadeIn 0.5s ease-in-out;
 }
+
+
 
 @keyframes fadeIn {
   0% {
@@ -21,19 +26,29 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}    
+    .card-img-top {
+      width: 200px;
+      display: block;
+      margin:  0 auto;
+
+      border-radius: 60px;
+    }
+    
+    .card-title {
+      font-size: 25px;
+      font-weight: bold;
+       text-align: center;
+      margin-bottom: 10px;
+    }
+    
+    .card-text {
+      font-size: 15px;
+      margin-bottom: 5px;
+      text-align: center;
+       font-weight: bold;
 }
 
-h3 {
-  margin-top: 30px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
-}
-
-.card {
-  margin-bottom: 20px;
-  padding: 20px;
-  animation: slideIn 0.5s ease-in-out;
-}
 
 @keyframes slideIn {
   0% {
