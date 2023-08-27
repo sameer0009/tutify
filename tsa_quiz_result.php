@@ -46,13 +46,20 @@ include('./dbcon.php');
       $score = $correct_answers / $total_questions * 100;
       $passed = ($score >= $subject_passing_criteria) ? true : false;
 
-      // Save the score to the database
-      $sql = "INSERT INTO tsa_quiz_results (subject_id, subject_name, score, passed) VALUES ('$subject_id', '$subject_name', '$score', '$passed')";
+      if ($passed==true) {
+        $sql = "INSERT INTO tsa_quiz_results (subject_id, subject_name, score, passed) VALUES ('$subject_id', '$subject_name', '$score', '$passed')";
       mysqli_query($con, $sql);
+
+   
+
 
       $sql = "INSERT INTO users (fname, lname, phone, email, password, user_type, verification_code, create_date,unique_id) VALUES ('".$_SESSION['fname']."', '".$_SESSION['lname']."', '".$_SESSION['phone']."', '".$_SESSION['email']."', '".$_SESSION['password']."', '".$_SESSION['user_type']."', '".$_SESSION['verification_code']."', current_timestamp(), '".$_SESSION['unique_id']."')";
 
       mysqli_query($con, $sql);
+      }
+
+      // Save the score to the database
+      
 
       // Print the quiz result in tabular form
       echo '<div class="bg-white shadow-md rounded px-8 py-6">';

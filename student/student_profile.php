@@ -64,8 +64,9 @@ if (move_uploaded_file($picture_temp,$target)) {
                     <div>
                     <div class="d-flex justify-content-center">
                         <div class="btn btn-primary btn-rounded">
-                            <label class="form-label text-white m-1" for="customFile1">Choose file</label>
+                            <label class="form-label text-white m-1" for="customFile1">Choose file </label>
                             <input type="file" name="picture" />
+                            <p> kindly upload .jpg , .jpeg , .png </p>
                         </div>
                     </div>
                     </div>

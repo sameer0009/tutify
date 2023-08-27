@@ -74,6 +74,7 @@ if(isset($_POST['submit'])){
           <div class="btn btn-primary btn-rounded">
             <label class="form-label text-white m-1" for="customFile1">Choose file</label>
             <input type="file" name="file" />
+            <p> kindly upload .jpg , .jpeg , .png </p>
           </div>
         </div>
       </div>

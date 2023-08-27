@@ -117,7 +117,7 @@ if (isset($_POST['submit'])) {
 
 
   <div class="container col-md-11">
-    <h1 class="text-center text-3xl font-bold mb-5">Create Assessments</h1>
+    <h1 class="text-center text-3xl font-bold mb-5">Assessments</h1>
     <div class="bg-white rounded shadow-lg p-6">
       <form action="" method="post" enctype="multipart/form-data">
         <div class="mb-4">
@@ -145,6 +145,7 @@ if (isset($_POST['submit'])) {
         <div class="mb-4">
           <label for="attachments" class="block text-gray-700">Attachments</label>
           <input type="file" class="form-input mt-1 block w-full" id="attachments" name="attachments[]" multiple>
+           <p>Kindly upload 'pdf', 'ppt', 'pptx', 'doc', 'docx', 'mp4' upto 50MB</p>
         </div>
         <button type="submit" name="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Assessment</button>
         <br>

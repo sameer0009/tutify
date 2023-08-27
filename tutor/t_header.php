@@ -37,9 +37,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="addcourse.php">Manage Course</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="profile_card.php">Profile Card</a>
-            </li>
+            
         </ul>
         
         <ul class="navbar-nav ml-auto">

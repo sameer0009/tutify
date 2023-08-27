@@ -78,7 +78,9 @@ if (isset($_POST['submit'])) {
         <div class="form-group">
             <label for="contentfile">Upload Content File</label>
             <input type="file" class="form-control-file" id="contentfile" name="contentfile" required>
+             <p>Kindly upload 'pdf', 'ppt', 'pptx', 'doc', 'docx', 'mp4' upto 50MB</p>
         </div>
+
 
         <button class="btn btn-primary" type="submit" name="submit" value="submit">Upload</button>
     </form>

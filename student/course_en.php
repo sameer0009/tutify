@@ -4,9 +4,9 @@ if (!isset($_SESSION['user_name'])) {
   header('Location: ../signin.php');
   exit();
 }
-?>
 
-<?php
+include('../dbcon.php');
+
 if (isset($_POST['submit'])) {
     $_SESSION['c_name'] = $_POST['course_name'];
     $_SESSION['c_id'] = $_POST['course_id'];
@@ -16,6 +16,17 @@ if (isset($_POST['submit'])) {
 
     header('Location:../payment.php');
 }
+
+// Handle search filter
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = $_GET['search'];
+    $query = "SELECT course_id, course_name, course_description, course_duration, course_price, course_intsructor, instructor_id FROM course WHERE course_name LIKE '%$search%'";
+} else {
+    $query = "SELECT course_id, course_name, course_description, course_duration, course_price, course_intsructor, instructor_id FROM course";
+}
+
+$query_run = mysqli_query($con, $query);
+$course_count = mysqli_num_rows($query_run);
 ?>
 
 <!DOCTYPE html>
@@ -31,19 +42,19 @@ include('./header.php');
 </head>
 
 <body class="bg-gray-100">
-  <div class="container mx-auto py-8">
-    <?php
-    include('../dbcon.php');
-    $query = "SELECT course_id, course_name, course_description, course_duration, course_price, course_intsructor,instructor_id FROM course";
-    $query_run = mysqli_query($con, $query);
-    $course = mysqli_num_rows($query_run);
-    ?>
-
+<div class="container mx-auto py-8">
+    <div class="flex justify-end mb-4">
+      <form method="get" class="flex items-center">
+        <input type="text" name="search" placeholder="Search by course name" class="px-4 py-2 rounded-l-md border border-gray-300 focus:ring focus:ring-blue-300">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-md">Search</button>
+      </form>
+    </div>
+  
     <div class="flex flex-wrap">
       <?php
-      if ($course > 0) {
+      if ($course_count > 0) {
         while ($row = mysqli_fetch_array($query_run)) {
-      ?>
+          ?>
           <div class="w-full md:w-1/2 lg:w-1/3 px-3 mb-4">
             <div class=" bg-gradient-to-l from-green-100 to-blue-200 shadow-md rounded-lg p-6">
               <h4 class="text-lg font-bold mb-4">Instructor: <?php echo $row['course_intsructor'] ?></h4>
@@ -66,6 +77,8 @@ include('./header.php');
           </div>
       <?php
         }
+      } else {
+        echo "<p>No courses found.</p>";
       }
       ?>
     </div>
