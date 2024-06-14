@@ -8,7 +8,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mx-auto py-0">
-                    <a href="index.php" class="nav-item nav-link active">Home</a>
+                    <a href="index.php" class="nav-item nav-link ">Home</a>
                     <a href="about.php" class="nav-item nav-link">About</a>
                     <a href="course.php" class="nav-item nav-link">Courses</a>
                     <a href="team.php" class="nav-item nav-link">Instructors</a>

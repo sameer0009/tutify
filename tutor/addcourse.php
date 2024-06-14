@@ -136,10 +136,11 @@ if(isset($_POST['submit'])){
               </div>
               <br><br>
               <div class="btn-group" role="group" aria-label="Actions" style="position: absolute; bottom: 0; right: 5px; margin-bottom: 15px;">
-                <form action="delete_course.php" method="post">
-                  <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
-                  <button type="submit" class="btn btn-danger" style="font-size: 14px;">Delete</button>
-                </form>
+               <form action="delete_course.php" method="post" onsubmit="return confirm('Are you sure you want to delete this course?');">
+                <input type="hidden" name="course_id" value="<?php echo $row['course_id']; ?>">
+                <button type="submit" class="btn btn-danger" style="font-size: 14px;">Delete</button>
+            </form>
+
               </div>
             </div>
           </div>

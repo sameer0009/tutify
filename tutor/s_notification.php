@@ -93,7 +93,7 @@ if (isset($_GET['delete'])) {
           <a class="nav-link" target="_blank" href="create_quiz.php?course_id=<?php echo $_SESSION['course_id']; ?>">Course Quiz</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" target="_blank" href="grading.php">Grading</a>
+          <a class="nav-link" target="_blank" href="grading.php=<?php echo $_SESSION['course_id']; ?>">Grading</a>
         </li>
          <li class="nav-item">
           <a class="nav-link" target="_blank" href="s_notification.php">Notification</a>

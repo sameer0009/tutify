@@ -75,7 +75,8 @@ if (isset($_POST['delete_subject'])) {
           <div class="card">
             <div class="card-body">
               <h5 class="card-title"><?php echo $subject['subject']; ?></h5>
-              <a href="tsa_question.php?subject_id=<?php echo $subject['id'];echo $subject['subject']; ?>" class="btn btn-primary">Add question</a>
+              
+              <a href="tsa_question.php?subject_id=<?php echo $subject['id'];?>" class="btn btn-primary">Add question</a>
               <br><br>
               <a href="tsa_question_list.php?subject_id=<?php echo $subject['id']; ?>" class="btn btn-secondary">Show added questions</a>
               <br><br>

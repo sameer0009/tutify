@@ -4,7 +4,6 @@ if (!isset($_SESSION['user_name'])) {
   header('Location: ../join.php'); // redirect to the login page if the student is not logged in
   exit();
 }
-$subject_name = $_SESSION['subject_name'] ?? '';
 ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +27,7 @@ include ('./a_header.php');
     <h2 style="text-align:center; font-size: 36px; color: #333333;">Tutor Selection Assessment</h2>
         <form method="post" action="save_tsa.php">
             <label for="subject">Subject:</label>
-            <input type="text" id="subject" name="subject" value="<?php echo $subject_name; ?>">
+            <input type="text" id="subject" name="subject" required>
             <label for="marks">Marks:</label>
             <input type="number" id="marks" name="marks" required>
             <label for="question">Question:</label>

@@ -58,7 +58,7 @@ if (!isset($_SESSION['user_name'])) {
           <a class="nav-link" target="_blank" href="grading.php?course_id=<?php echo $_SESSION['course_id']; ?>">Grading</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" target="_blank" href="s_notification.php">Notification</a>
+          <a class="nav-link" target="_blank" href="s_notification.php?course_id=<?php echo $_SESSION['course_id']; ?>">Notification</a>
         </li>
 
       </ul>

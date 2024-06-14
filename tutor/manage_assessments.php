@@ -143,10 +143,10 @@ if (isset($_POST['submit'])) {
     <input type="hidden" name="assessment_id" value="<?php echo $assesment_id ?>">
     <button type="submit" name="edit_submit" class="text-blue-500 hover:text-blue-700">Edit</button>
   </form>
-                    <form action="" method="POST">
-                      <input type="hidden" name="assesment_id" value="<?php echo $assesment_id?>">
-                      <button type="submit" name="submit" class="text-red-500 hover:text-red-700">Delete</button>
-                    </form>
+                    <form action="" method="POST" id="deleteForm">
+    <input type="hidden" name="assesment_id" value="<?php echo $assesment_id?>">
+    <button type="button" name="submit" class="text-red-500 hover:text-red-700" onclick="showConfirmation()">Delete</button>
+</form>
                     <br>
                   </td>
                 </tr>
@@ -163,6 +163,13 @@ if (isset($_POST['submit'])) {
     </div>
     <button onclick="window.location.href = './create_assessments.php';" class="back-button">Back</button>
   </div>
+  <script>
+function showConfirmation() {
+    if (confirm('Are you sure you want to delete this assessment?')) {
+        document.getElementById('deleteForm').submit();
+    }
+}
+</script>
 </body>
 
 </html>
